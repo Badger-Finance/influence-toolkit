@@ -23,11 +23,11 @@ setup(
     include_package_data=True,
     version="0.0.1",
     classifiers=[
+        "Intended Audience :: Developers",
         "License :: OSI Approved :: MIT License",
         "Intended Audience :: Developers",
         "Programming Language :: Python :: 3",
     ],
     license="MIT",
     url="https://github.com/Badger-Finance/influence-toolkit",
-    python_requires=">=3.7,<4",
 )
