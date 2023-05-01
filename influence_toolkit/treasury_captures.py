@@ -1,12 +1,12 @@
 from ape import Contract
 
-from constants import TREASURY_VAULT_MSIG
-from constants import BADGER_WBTC_POOL
-from constants import BADGER_RETH_POOL
-from constants import DIGG_WBTC_GRAVI_POOL
-from constants import REWARDS_BADGER_WBTC
-from constants import REWARDS_BADGER_RETH
-from constants import REWARDS_DIGG_WBTC_GRAVI
+from influence_toolkit.constants import TREASURY_VAULT_MSIG
+from influence_toolkit.constants import BADGER_WBTC_POOL
+from influence_toolkit.constants import BADGER_RETH_POOL
+from influence_toolkit.constants import DIGG_WBTC_GRAVI_POOL
+from influence_toolkit.constants import REWARDS_BADGER_WBTC
+from influence_toolkit.constants import REWARDS_BADGER_RETH
+from influence_toolkit.constants import REWARDS_DIGG_WBTC_GRAVI
 
 
 def get_treasury_captures():

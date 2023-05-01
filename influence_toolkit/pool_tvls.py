@@ -1,13 +1,13 @@
 import requests
 
-from constants import BALANCER_SUBGRAPH
-from constants import SNAPSHOT_SUBGRAPH
-from constants import LLAMA_DASHBOARD_URL
-from constants import CURVE_FACTORY_URL
-from constants import POOL_ID_BADGER
-from constants import POOL_ID_DIGG
-from constants import POOL_ID_BADGE_RETH
-from constants import CURVE_BADGER_FRAXBP_POOL
+from influence_toolkit.constants import BALANCER_SUBGRAPH
+from influence_toolkit.constants import SNAPSHOT_SUBGRAPH
+from influence_toolkit.constants import LLAMA_DASHBOARD_URL
+from influence_toolkit.constants import CURVE_FACTORY_URL
+from influence_toolkit.constants import POOL_ID_BADGER
+from influence_toolkit.constants import POOL_ID_DIGG
+from influence_toolkit.constants import POOL_ID_BADGE_RETH
+from influence_toolkit.constants import CURVE_BADGER_FRAXBP_POOL
 
 PROPOSAL_INFO_QUERY = """
         query($proposal_id: String) {

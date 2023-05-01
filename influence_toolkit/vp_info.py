@@ -1,9 +1,9 @@
 from ape import Contract
 
-from constants import BADGER_DELEGATE
-from constants import COUNCIL_FEE
-from constants import VLAURA
-from constants import VOTER_MSIG
+from influence_toolkit.constants import BADGER_DELEGATE
+from influence_toolkit.constants import COUNCIL_FEE
+from influence_toolkit.constants import VLAURA
+from influence_toolkit.constants import VOTER_MSIG
 
 
 def get_council_vp_fee():

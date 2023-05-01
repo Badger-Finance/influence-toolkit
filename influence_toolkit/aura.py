@@ -1,6 +1,6 @@
-from constants import AURA_FEE
-from constants import BALANCER_EMISSIONS
-from constants import POOL_ID_DIGG
+from influence_toolkit.constants import AURA_FEE
+from influence_toolkit.constants import BALANCER_EMISSIONS
+from influence_toolkit.constants import POOL_ID_DIGG
 
 
 def aura_mint_ratio(aura):
