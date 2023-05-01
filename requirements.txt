@@ -1,6 +1,5 @@
 eth-ape
 ape-etherscan
 ape-alchemy
-notebook
 pycoingecko
 altair

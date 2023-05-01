@@ -1,14 +1,13 @@
 import requests
 
-# endpoints
-BALANCER_SUBGRAPH = "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-v2"
-SNAPSHOT_SUBGRAPH = "https://hub.snapshot.org/graphql?"
-LLAMA_DASHBOARD_URL = "https://api.llama.airforce//dashboard"
-CURVE_FACTORY_URL = "https://api.curve.fi/api/getPools/ethereum/factory-crypto"
-
-POOL_ID_BADGER = "0xb460daa847c45f1c4a41cb05bfb3b51c92e41b36000200000000000000000194"
-POOL_ID_DIGG = "0x8eb6c82c3081bbbd45dcac5afa631aac53478b7c000100000000000000000270"
-POOL_ID_BADGE_RETH = "0x76fcf0e8c7ff37a47a799fa2cd4c13cde0d981c90002000000000000000003d2"
+from constants import BALANCER_SUBGRAPH
+from constants import SNAPSHOT_SUBGRAPH
+from constants import LLAMA_DASHBOARD_URL
+from constants import CURVE_FACTORY_URL
+from constants import POOL_ID_BADGER
+from constants import POOL_ID_DIGG
+from constants import POOL_ID_BADGE_RETH
+from constants import CURVE_BADGER_FRAXBP_POOL
 
 PROPOSAL_INFO_QUERY = """
         query($proposal_id: String) {
@@ -32,7 +31,6 @@ TVL_QUERY = """
 
 # methods to hit endpoints
 def get_cost_per_vote_after_fee(id):
-    LLAMA_DASHBOARD_URL = "https://api.llama.airforce//dashboard"
     aura_dash = requests.post(LLAMA_DASHBOARD_URL, json={"id": id}).json()
     cost_per_vote_last_round = aura_dash["dashboard"]["epochs"][-1]["dollarPerVlAsset"]
     cost_per_vote_after_fee = cost_per_vote_last_round * (1.04)
@@ -79,7 +77,7 @@ def get_tvl_curve_badgerfraxbp_pool():
     r = requests.get(CURVE_FACTORY_URL).json()
     poolData = r["data"]["poolData"]
     for pool in poolData:
-        if pool["address"] == "0x13B876C26Ad6d21cb87AE459EaF6d7A1b788A113":
+        if pool["address"] == CURVE_BADGER_FRAXBP_POOL:
             tvl = float(pool["usdTotal"])
             break
     return tvl

@@ -1,14 +1,12 @@
-# emissions ecosystem
-BALANCER_EMISSIONS = 121_930
-AURA_FEE = 0.25
-
-DIGG_POOL_ID = "0x8EB6C82C3081BBBD45DCAC5AFA631AAC53478B7C000100000000000000000270"
+from constants import AURA_FEE
+from constants import BALANCER_EMISSIONS
+from constants import POOL_ID_DIGG
 
 
-def aura_mint_ratio(aura, block_current_proposal):
+def aura_mint_ratio(aura):
     total_cliffs = aura.totalCliffs()
     cliff_reduction = aura.reductionPerCliff() / 1e18
-    aura_total_supply = aura.totalSupply(block_identifier=block_current_proposal) / 1e18
+    aura_total_supply = aura.totalSupply() / 1e18
     init_mint_amount = aura.INIT_MINT_AMOUNT() / 1e18
     aura_mint_ratio = (
         (total_cliffs - (aura_total_supply - init_mint_amount) / cliff_reduction) * 2.5 + 700
@@ -24,11 +22,8 @@ def weekly_emissions_after_fee(aura_mint_ratio, bal_price, aura_price):
     return weekly_emissions_after_fee
 
 
-def get_gravi_in_balancer_pool(balancer_vault, block_current_proposal):
+def get_gravi_in_balancer_pool(balancer_vault):
     # digg pool id
-    digg_pool_info = balancer_vault.getPoolTokens(
-        DIGG_POOL_ID,
-        block_identifier=block_current_proposal,
-    )
+    digg_pool_info = balancer_vault.getPoolTokens(POOL_ID_DIGG)
     gravi_in_digg_pool = digg_pool_info[1][2] / 1e18
     return gravi_in_digg_pool
