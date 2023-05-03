@@ -2,4 +2,5 @@ eth-ape
 ape-etherscan
 ape-alchemy
 pycoingecko
-altair
+requests
+pandas
