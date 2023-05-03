@@ -43,9 +43,9 @@ def display_aura_df():
     treasury_votes = get_voter_vp()
     council_fee = get_council_vp_fee()
     vebal_per_aura = vebal_controlled_per_aura()
-    aura_vebal_controlled = pct_format(aura_vebal_controlled())
+    aura_vebal_pct = pct_format(aura_vebal_controlled())
 
-    data = [[mint_ratio, treasury_votes, council_fee, vebal_per_aura, aura_vebal_controlled]]
+    data = [[mint_ratio, treasury_votes, council_fee, vebal_per_aura, aura_vebal_pct]]
 
     df = pd.DataFrame(data, columns=headers)
 
