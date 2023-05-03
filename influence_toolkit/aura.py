@@ -64,15 +64,9 @@ def get_rel_weights():
     # contracts
     gauge_controller = Contract(BALANCER_GAUGE_CONTROLLER)
 
-    weight_badger_wbtc = (
-        gauge_controller.gauge_relative_weight_write(BALANCER_BADGER_WBTC_GAUGE) / 1e18
-    )
-    weight_digg_gravi = (
-        gauge_controller.gauge_relative_weight_write(BALANCER_DIGG_GRAVI_GAUGE) / 1e18
-    )
-    weight_badger_reth = (
-        gauge_controller.gauge_relative_weight_write(BALANCER_BADGER_RETH_GAUGE) / 1e18
-    )
+    weight_badger_wbtc = gauge_controller.gauge_relative_weight(BALANCER_BADGER_WBTC_GAUGE) / 1e18
+    weight_digg_gravi = gauge_controller.gauge_relative_weight(BALANCER_DIGG_GRAVI_GAUGE) / 1e18
+    weight_badger_reth = gauge_controller.gauge_relative_weight(BALANCER_BADGER_RETH_GAUGE) / 1e18
 
     return [weight_badger_wbtc, weight_digg_gravi, weight_badger_reth]
 
