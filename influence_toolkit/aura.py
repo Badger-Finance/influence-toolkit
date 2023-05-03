@@ -6,6 +6,10 @@ from influence_toolkit.constants import BALANCER_EMISSIONS
 from influence_toolkit.constants import POOL_ID_DIGG
 from influence_toolkit.constants import PROXY_AURA_VOTER
 from influence_toolkit.constants import VEBAL
+from influence_toolkit.constants import BALANCER_GAUGE_CONTROLLER
+from influence_toolkit.constants import BALANCER_BADGER_WBTC_GAUGE
+from influence_toolkit.constants import BALANCER_DIGG_GRAVI_GAUGE
+from influence_toolkit.constants import BALANCER_BADGER_RETH_GAUGE
 from influence_toolkit.constants import VLAURA
 
 
@@ -54,6 +58,23 @@ def vebal_controlled_per_aura():
     vebal_controlled_per_aura = voter_proxy_aura_vebal_vp / ts_vlaura
 
     return vebal_controlled_per_aura
+
+
+def get_rel_weights():
+    # contracts
+    gauge_controller = Contract(BALANCER_GAUGE_CONTROLLER)
+
+    weight_badger_wbtc = (
+        gauge_controller.gauge_relative_weight_write(BALANCER_BADGER_WBTC_GAUGE) / 1e18
+    )
+    weight_digg_gravi = (
+        gauge_controller.gauge_relative_weight_write(BALANCER_DIGG_GRAVI_GAUGE) / 1e18
+    )
+    weight_badger_reth = (
+        gauge_controller.gauge_relative_weight_write(BALANCER_BADGER_RETH_GAUGE) / 1e18
+    )
+
+    return [weight_badger_wbtc, weight_digg_gravi, weight_badger_reth]
 
 
 def get_gravi_in_balancer_pool(balancer_vault):

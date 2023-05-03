@@ -5,7 +5,9 @@ from influence_toolkit.pool_tvls import get_pool_tvls
 from influence_toolkit.treasury_captures import get_treasury_captures
 from influence_toolkit.aura import aura_mint_ratio
 from influence_toolkit.aura import aura_vebal_controlled
+from influence_toolkit.aura import get_rel_weights
 from influence_toolkit.aura import vebal_controlled_per_aura
+from influence_toolkit.convex import get_frax_gauge_weight
 from influence_toolkit.vp_info import get_council_vp_fee
 from influence_toolkit.vp_info import get_voter_vp
 
@@ -19,12 +21,20 @@ def dollar_format(figure):
 
 
 def display_current_epoch_df():
-    pools_tvl = [dollar_format(x) for x in get_pool_tvls()]
+    # TODO: grab from endpoint tvl in the bunni token
+    pools_tvl = [dollar_format(x) for x in get_pool_tvls().append(0)]
     captures = [pct_format(x) for x in get_treasury_captures()]
-    # TODO: add current epoch rel.weights.
-    gauge_rel_weights = []
 
-    df = {"Pools": POOL_INDEXES, "TVL": pools_tvl, "Capture": captures}
+    balancer_weights = get_rel_weights()
+    fxs_weight = get_frax_gauge_weight()
+    gauge_rel_weights = [pct_format(x) for x in balancer_weights.append(fxs_weight)]
+
+    df = {
+        "Pools": POOL_INDEXES,
+        "TVL": pools_tvl,
+        "Capture": captures,
+        "Gauge Weight": gauge_rel_weights,
+    }
     df = pd.DataFrame(df)
 
     return df.set_index("Pools")
