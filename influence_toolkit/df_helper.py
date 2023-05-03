@@ -9,7 +9,9 @@ from influence_toolkit.aura import aura_vebal_controlled
 from influence_toolkit.aura import get_rel_weights
 from influence_toolkit.aura import vebal_controlled_per_aura
 from influence_toolkit.bunni import get_bunni_gauge_weight
+from influence_toolkit.bunni import get_bunni_weekly_emissions
 from influence_toolkit.coingecko import get_aura_prices
+from influence_toolkit.coingecko import get_bunni_prices
 from influence_toolkit.convex import get_frax_gauge_weight
 from influence_toolkit.vp_info import get_council_vp_fee
 from influence_toolkit.vp_info import get_voter_vp
@@ -41,19 +43,25 @@ def display_current_epoch_df():
 
     # prices
     bal_price, aura_price, _ = get_aura_prices()
+    lit_price = get_bunni_prices()
 
     # ecosystem emissions
     mint_ratio = aura_mint_ratio()
     weekly_emissions_usd = weekly_emissions_after_fee(mint_ratio, bal_price, aura_price)
     biweekly_emissions_usd = weekly_emissions_usd * 2
 
-    # TODO: crunch same figures for fxs and bunni emissions usd
+    # TODO: crunch same figures for fxs/convex
+    weekly_bunni_emissions = get_bunni_weekly_emissions(lit_price)
+    biweekly_bunni_emissions = weekly_bunni_emissions * 2
 
     # revenue estimations
     rev_estimations = []
     for idx, capture in enumerate(treasury_captures):
         rel_weight = rel_weights[idx]
-        usd_rev = capture * rel_weight * biweekly_emissions_usd
+        if idx == 4:
+            usd_rev = capture * rel_weight * biweekly_bunni_emissions
+        else:
+            usd_rev = capture * rel_weight * biweekly_emissions_usd
         rev_estimations.append(dollar_format(usd_rev))
 
     # df
