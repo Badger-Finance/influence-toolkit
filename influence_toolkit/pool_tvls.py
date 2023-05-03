@@ -9,6 +9,7 @@ from influence_toolkit.constants import POOL_ID_DIGG
 from influence_toolkit.constants import POOL_ID_BADGE_RETH
 from influence_toolkit.constants import CURVE_BADGER_FRAXBP_POOL
 
+
 PROPOSAL_INFO_QUERY = """
         query($proposal_id: String) {
           proposal(id: $proposal_id) {
@@ -20,7 +21,6 @@ PROPOSAL_INFO_QUERY = """
         }
         """
 
-
 TVL_QUERY = """
         query($pool_id: String) {
           pool(id: $pool_id) {
@@ -28,6 +28,7 @@ TVL_QUERY = """
           }
         }
         """
+
 
 # methods to hit endpoints
 def get_cost_per_vote_after_fee(id):
