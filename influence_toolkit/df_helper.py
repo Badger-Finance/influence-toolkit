@@ -2,11 +2,11 @@ import pandas as pd
 
 
 def pct_format(figure):
-    return "{0:.3%}".format(figure)
+    return "{0:.1%}".format(figure)
 
 
 def dollar_format(figure):
-    return "${:.4f}".format(figure)
+    return "${:,.2f}".format(figure)
 
 
 def display_df(labels, values):
