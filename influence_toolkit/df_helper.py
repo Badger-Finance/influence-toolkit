@@ -19,8 +19,7 @@ def dollar_format(figure):
 
 def display_current_epoch_df():
     pools_tvl = [dollar_format(x) for x in get_pool_tvls()]
-    # TODO: captures = [pct_format(x) for x in get_treasury_captures()]
-    captures = [0.2, 0.3, 0.4, 0.6]
+    captures = [pct_format(x) for x in get_treasury_captures()]
 
     df = {"Pools": POOL_INDEXES, "TVL": pools_tvl, "Capture": captures}
     df = pd.DataFrame(df)
@@ -36,7 +35,7 @@ def display_aura_df():
     council_fee = get_council_vp_fee()
     vebal_per_aura = vebal_controlled_per_aura()
 
-    data = [mint_ratio, treasury_votes, council_fee, vebal_per_aura]
+    data = [[mint_ratio, treasury_votes, council_fee, vebal_per_aura]]
 
     df = pd.DataFrame(data, columns=headers)
 

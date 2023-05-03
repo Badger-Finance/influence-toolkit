@@ -45,7 +45,6 @@ def vebal_controlled_per_aura():
 
 
 def get_gravi_in_balancer_pool(balancer_vault):
-    # digg pool id
     digg_pool_info = balancer_vault.getPoolTokens(POOL_ID_DIGG)
     gravi_in_digg_pool = digg_pool_info[1][2] / 1e18
     return gravi_in_digg_pool
