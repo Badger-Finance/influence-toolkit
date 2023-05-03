@@ -14,7 +14,7 @@ def dollar_format(figure):
 
 
 def display_df():
-    pools_tvl = get_pool_tvls()
+    pools_tvl = [dollar_format(x) for x in get_pool_tvls()]
     captures = [0.2, 0.3, 0.4, 0.6]
 
     df = {"Pools": POOL_INDEXES, "TVL": pools_tvl, "Capture": captures}
