@@ -44,7 +44,8 @@ BADGER_FRAXBP_GAUGE = "0x5a92EF27f4baA7C766aee6d751f754EBdEBd9fae"
 BADGER_WBTC_UNIV3 = "0xe15e6583425700993bd08F51bF6e7B73cd5da91B"
 
 # bunni
-WBTC_BADGER_GAUGE = "0xFf780599310ccd337Da4D4804fE31A75c2a66a81"
+BUNNI_GAUGE_CONTROLLER = "0x901c8aA6A61f74aC95E7f397E22A0Ac7c1242218"
+BUNNI_WBTC_BADGER_GAUGE = "0xFf780599310ccd337Da4D4804fE31A75c2a66a81"
 
 # budgets
 MAX_COUNCIL_BRIBE = 16_000
@@ -70,3 +71,7 @@ BUNNI_SUBGRAPH = "https://api.thegraph.com/subgraphs/name/bunniapp/bunni-mainnet
 SNAPSHOT_SUBGRAPH = "https://hub.snapshot.org/graphql?"
 LLAMA_DASHBOARD_URL = "https://api.llama.airforce//dashboard"
 CURVE_FACTORY_URL = "https://api.curve.fi/api/getPools/ethereum/factory-crypto"
+
+# misc
+ROUND_DAYS_DURATION = 14
+WEEK = 7
