@@ -8,6 +8,7 @@ from influence_toolkit.constants import POOL_ID_BADGER
 from influence_toolkit.constants import POOL_ID_DIGG
 from influence_toolkit.constants import POOL_ID_BADGE_RETH
 from influence_toolkit.constants import CURVE_BADGER_FRAXBP_POOL
+from influence_toolkit.df_helper import dollar_format
 
 
 PROPOSAL_INFO_QUERY = """
@@ -82,6 +83,17 @@ def get_tvl_curve_badgerfraxbp_pool():
             tvl = float(pool["usdTotal"])
             break
     return tvl
+
+
+def get_pool_tvls():
+    pool_tvls = [
+        dollar_format(get_tvl_balancer_badger_pool()),
+        dollar_format(get_tvl_balancer_digg_pool()),
+        dollar_format(get_tvl_balancer_badgerreth_pool()),
+        dollar_format(get_tvl_curve_badgerfraxbp_pool()),
+    ]
+
+    return pool_tvls
 
 
 # choices which have frax gauges as well

@@ -50,7 +50,8 @@ GAUGE_CAP_TWO_PCT = 0.02
 GAUGE_CAP_TEN_PCT = 0.1
 
 # dataframe helpers
-DF_HEADER = ["TVL", "Capture"]
+DF_HEADER = ["tvl", "capture"]
+POOL_INDEXES = ["WBTC/BADGER", "DIGG/GRAVI/WBTC", "BADGER/RETH", "BADGER/FRAXBP"]
 
 # endpoints
 BALANCER_SUBGRAPH = "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-v2"
