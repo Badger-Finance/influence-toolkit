@@ -35,7 +35,7 @@ def vebal_controlled_per_aura():
     vlAURA = Contract(VLAURA)
 
     # calcs
-    voter_proxy_aura_vebal_vp = vebal.balanceOfAt(PROXY_AURA_VOTER) / 1e18
+    voter_proxy_aura_vebal_vp = vebal.balanceOf(PROXY_AURA_VOTER) / 1e18
 
     ts_vlaura = vlAURA.totalSupply() / 1e18
 
