@@ -11,7 +11,6 @@ from influence_toolkit.constants import REWARDS_DIGG_WBTC_GRAVI
 from influence_toolkit.constants import CURVE_BADGER_FRAXBP_LP
 from influence_toolkit.constants import BADGER_FRAXBP_GAUGE
 from influence_toolkit.constants import WBTC_BADGER_GAUGE
-from influence_toolkit.df_helper import pct_format
 
 
 def get_treasury_captures():
@@ -51,8 +50,8 @@ def get_treasury_captures():
     capture_bunni_gauge = vault_bunni_gauge / ps_bunni_gauge
 
     return [
-        pct_format(capture_badger_wbtc),
-        pct_format(capture_badger_reth),
-        pct_format(capture_digg_gravi),
-        pct_format(capture_badger_fraxbp),
+        capture_badger_wbtc,
+        capture_badger_reth,
+        capture_digg_gravi,
+        capture_badger_fraxbp,
     ]
