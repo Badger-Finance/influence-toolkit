@@ -51,7 +51,8 @@ def get_treasury_captures():
 
     return [
         capture_badger_wbtc,
-        capture_badger_reth,
         capture_digg_gravi,
+        capture_badger_reth,
         capture_badger_fraxbp,
+        capture_bunni_gauge,
     ]
