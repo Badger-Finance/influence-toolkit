@@ -50,9 +50,13 @@ BUNNI_WBTC_BADGER_GAUGE = "0xFf780599310ccd337Da4D4804fE31A75c2a66a81"
 # budgets
 MAX_COUNCIL_BRIBE = 16_000
 
-# emissions and fees
+# emissions
 BALANCER_EMISSIONS = 121_930
-FXS_DAILY_EMISSIONS = 6250
+FXS_DAILY_EMISSIONS = 6_250
+# https://docs.google.com/spreadsheets/d/1EzUL5g6joauMYKUVlslaaptyYkLjpE8z_QLxgdkbD3I/edit#gid=0
+BUNNI_WEEKLY_EMISSIONS = 1_373_100
+
+# fees
 AURA_FEE = 0.25
 CVX_FEE = 0.17
 COUNCIL_FEE = 0.1

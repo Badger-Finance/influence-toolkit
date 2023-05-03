@@ -47,12 +47,14 @@ def display_current_epoch_df():
     weekly_emissions_usd = weekly_emissions_after_fee(mint_ratio, bal_price, aura_price)
     biweekly_emissions_usd = weekly_emissions_usd * 2
 
+    # TODO: crunch same figures for fxs and bunni emissions usd
+
     # revenue estimations
     rev_estimations = []
     for idx, capture in enumerate(treasury_captures):
         rel_weight = rel_weights[idx]
         usd_rev = capture * rel_weight * biweekly_emissions_usd
-        rev_estimations.append(usd_rev)
+        rev_estimations.append(dollar_format(usd_rev))
 
     # df
     df = {
