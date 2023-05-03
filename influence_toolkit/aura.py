@@ -29,6 +29,18 @@ def weekly_emissions_after_fee(aura_mint_ratio, bal_price, aura_price):
     return weekly_emissions_after_fee
 
 
+def aura_vebal_controlled():
+    # contracts
+    vebal = Contract(VEBAL)
+
+    # calcs
+    voter_proxy_aura_vebal_vp = vebal.balanceOf(PROXY_AURA_VOTER) / 1e18
+
+    ts_vebal = vebal.totalSupply() / 1e18
+
+    return voter_proxy_aura_vebal_vp / ts_vebal
+
+
 def vebal_controlled_per_aura():
     # contracts
     vebal = Contract(VEBAL)

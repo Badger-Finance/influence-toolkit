@@ -61,6 +61,7 @@ POOL_INDEXES = ["WBTC/BADGER", "DIGG/GRAVI/WBTC", "BADGER/RETH", "BADGER/FRAXBP"
 
 # endpoints
 BALANCER_SUBGRAPH = "https://api.thegraph.com/subgraphs/name/balancer-labs/balancer-v2"
+BUNNI_SUBGRAPH = "https://api.thegraph.com/subgraphs/name/bunniapp/bunni-mainnet"
 SNAPSHOT_SUBGRAPH = "https://hub.snapshot.org/graphql?"
 LLAMA_DASHBOARD_URL = "https://api.llama.airforce//dashboard"
 CURVE_FACTORY_URL = "https://api.curve.fi/api/getPools/ethereum/factory-crypto"
