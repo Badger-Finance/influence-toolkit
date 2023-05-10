@@ -2,12 +2,11 @@ from pycoingecko import CoinGeckoAPI
 
 
 def get_aura_prices():
-    prices = CoinGeckoAPI().get_price(["aura-finance", "balancer", "badger-dao"], "usd")
+    prices = CoinGeckoAPI().get_price(["aura-finance", "balancer"], "usd")
     bal_price = prices["balancer"]["usd"]
     aura_price = prices["aura-finance"]["usd"]
-    badger_price = prices["badger-dao"]["usd"]
 
-    return bal_price, aura_price, badger_price
+    return bal_price, aura_price
 
 
 def get_bunni_prices():
@@ -15,6 +14,13 @@ def get_bunni_prices():
     lit_price = prices["timeless"]["usd"]
 
     return lit_price
+
+
+def get_badger_price():
+    prices = CoinGeckoAPI().get_price(["badger-dao"], "usd")
+    badger_price = prices["badger-dao"]["usd"]
+
+    return badger_price
 
 
 def get_convex_prices():

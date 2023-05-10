@@ -12,7 +12,9 @@ from influence_toolkit.bunni import get_bunni_gauge_weight
 from influence_toolkit.bunni import get_bunni_weekly_emissions
 from influence_toolkit.coingecko import get_aura_prices
 from influence_toolkit.coingecko import get_bunni_prices
+from influence_toolkit.coingecko import get_badger_price
 from influence_toolkit.convex import get_frax_gauge_weight
+from influence_toolkit.incentives_cost import get_incentives_cost
 from influence_toolkit.vp_info import get_council_vp_fee
 from influence_toolkit.vp_info import get_voter_vp
 
@@ -42,8 +44,9 @@ def display_current_epoch_df():
     gauge_rel_weights = [pct_format(x) for x in rel_weights]
 
     # prices
-    bal_price, aura_price, _ = get_aura_prices()
+    bal_price, aura_price = get_aura_prices()
     lit_price = get_bunni_prices()
+    badger_price = get_badger_price()
 
     # ecosystem emissions
     mint_ratio = aura_mint_ratio()
@@ -53,6 +56,10 @@ def display_current_epoch_df():
     # TODO: crunch same figures for fxs/convex
     weekly_bunni_emissions = get_bunni_weekly_emissions(lit_price)
     biweekly_bunni_emissions = weekly_bunni_emissions * 2
+
+    # incentive costs
+    incentives = get_incentives_cost(badger_price)
+    incentives_dollar_format = [dollar_format(x) for x in incentives]
 
     # revenue estimations
     rev_estimations = []
@@ -71,6 +78,7 @@ def display_current_epoch_df():
         "Capture": captures,
         "Gauge Weight": gauge_rel_weights,
         "Estimated Revenue": rev_estimations,
+        "Cost": incentives_dollar_format,
     }
     df = pd.DataFrame(df)
 
