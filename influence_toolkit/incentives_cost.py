@@ -59,9 +59,9 @@ def get_incentives_cost(badger_price):
 
     # NOTE: assume some of them zero for now for testing
     return [
-        wbtc_badger_balancer_incentives * badger_price,
-        0,
-        badger_reth_balancer_incentives * badger_price,
-        0,
-        badger_wbtc_bunni_incentives * badger_price,
+        float(wbtc_badger_balancer_incentives) * badger_price,
+        float(0),
+        float(badger_reth_balancer_incentives) * badger_price,
+        float(0),
+        float(badger_wbtc_bunni_incentives) * badger_price,
     ]
