@@ -85,6 +85,7 @@ def display_current_epoch_df():
         "Cost": incentives_dollar_format,
     }
     df = pd.DataFrame(df)
+    df["ROI"] = (df["Estimated Revenue"] / df["Cost"] - 1).apply(pct_format)
 
     return df.set_index("Pools")
 
