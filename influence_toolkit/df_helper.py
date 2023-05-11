@@ -1,6 +1,6 @@
 import pandas as pd
 
-from influence_toolkit.constants import POOL_INDEXES
+from influence_toolkit.constants import POOL_PLATFORMS, POOLS
 from influence_toolkit.pool_tvls import get_pool_tvls
 from influence_toolkit.treasury_captures import get_treasury_captures
 from influence_toolkit.aura import aura_mint_ratio
@@ -75,15 +75,17 @@ def display_current_epoch_df():
 
     # df
     df = {
-        "Pools": POOL_INDEXES,
+        "Platform(s)": "",
+        "Pool": POOLS,
         "TVL": tvls,
         "Capture": treasury_captures,
         "Gauge Weight": gauge_rel_weights,
-        "Estimated Revenue": rev_estimations,
+        "Est. Revenue": rev_estimations,
         "Cost": incentives,
     }
     df = pd.DataFrame(df)
-    df["ROI"] = (df["Estimated Revenue"] / df["Cost"] - 1).apply(pct_format)
+    df["Platform(s)"] = df["Pool"].map(POOL_PLATFORMS)
+    df["ROI"] = (df["Est. Revenue"] / df["Cost"]).apply(pct_format)
 
     # formatting of columns
     df["TVL"] = df["TVL"].apply(dollar_format)
@@ -92,7 +94,7 @@ def display_current_epoch_df():
     df["Estimated Revenue"] = df["Estimated Revenue"].apply(dollar_format)
     df["Cost"] = df["Cost"].apply(dollar_format)
 
-    return df.set_index("Pools")
+    return df.set_index(["Platform(s)", "Pool"])
 
 
 def display_aura_df():
