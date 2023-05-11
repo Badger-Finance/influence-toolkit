@@ -14,6 +14,7 @@ from influence_toolkit.coingecko import get_aura_prices
 from influence_toolkit.coingecko import get_bunni_prices
 from influence_toolkit.coingecko import get_badger_price
 from influence_toolkit.convex import get_frax_gauge_weight
+from influence_toolkit.convex import get_badger_fraxbp_curve_gauge_weight
 from influence_toolkit.incentives_cost import get_incentives_cost
 from influence_toolkit.vp_info import get_council_vp_fee
 from influence_toolkit.vp_info import get_voter_vp
@@ -39,9 +40,12 @@ def display_current_epoch_df():
     # rel.weights
     balancer_weights = get_rel_weights()
     fxs_weight = get_frax_gauge_weight()
+    curve_weight = get_badger_fraxbp_curve_gauge_weight()
     bunni_weight = get_bunni_gauge_weight()
     rel_weights = balancer_weights + [fxs_weight, bunni_weight]
     gauge_rel_weights = [pct_format(x) for x in rel_weights]
+    # NOTE: trying to sneak dirt-ily the curve rel.weight
+    gauge_rel_weights[3] += f", {pct_format(curve_weight)}"
 
     # prices
     bal_price, aura_price = get_aura_prices()
