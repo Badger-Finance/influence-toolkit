@@ -25,7 +25,7 @@ def pct_format(figure):
 
 
 def dollar_format(figure):
-    return "${:,.2f}".format(figure)
+    return "${:,.0f}".format(figure)
 
 
 def display_current_epoch_df():
