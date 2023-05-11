@@ -6,7 +6,7 @@ from influence_toolkit.constants import LLAMA_DASHBOARD_URL
 from influence_toolkit.constants import CURVE_FACTORY_URL
 from influence_toolkit.constants import POOL_ID_BADGER
 from influence_toolkit.constants import POOL_ID_DIGG
-from influence_toolkit.constants import POOL_ID_BADGE_RETH
+from influence_toolkit.constants import POOL_ID_BADGER_RETH
 from influence_toolkit.constants import CURVE_BADGER_FRAXBP_POOL
 
 
@@ -68,7 +68,7 @@ def get_tvl_balancer_digg_pool():
 def get_tvl_balancer_badgerreth_pool():
     response_tvl_badger = requests.post(
         BALANCER_SUBGRAPH,
-        json={"query": TVL_QUERY, "variables": {"pool_id": POOL_ID_BADGE_RETH}},
+        json={"query": TVL_QUERY, "variables": {"pool_id": POOL_ID_BADGER_RETH}},
     ).json()
     tvl_badger = float(response_tvl_badger["data"]["pool"]["totalLiquidity"])
     return tvl_badger
