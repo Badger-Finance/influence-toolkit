@@ -83,12 +83,14 @@ def display_current_epoch_df():
         "Cost": incentives,
     }
     df = pd.DataFrame(df)
+    df["ROI"] = (df["Estimated Revenue"] / df["Cost"] - 1).apply(pct_format)
+
+    # formatting of columns
     df["TVL"] = df["TVL"].apply(dollar_format)
     df["Capture"] = df["Capture"].apply(pct_format)
     # df["Gauge Weight"] = df["Gauge Weight"].apply(pct_format)  # TODO: need curve column fix first
     df["Estimated Revenue"] = df["Estimated Revenue"].apply(dollar_format)
     df["Cost"] = df["Cost"].apply(dollar_format)
-    df["ROI"] = (df["Estimated Revenue"] / df["Cost"] - 1).apply(pct_format)
 
     return df.set_index("Pools")
 
