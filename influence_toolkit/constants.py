@@ -98,14 +98,14 @@ GAUGE_CAP_TEN_PCT = 0.1
 # dataframe helpers
 DF_HEADER = ["tvl", "capture"]
 POOLS = [
-    "WBTC/BADGER (CURVE)",
+    "WBTC/BADGER (BALANCER)",
     "DIGG/GRAVI/WBTC",
     "BADGER/RETH",
     "BADGER/FRAXBP",
     "WBTC/BADGER (UNI)",
 ]
 POOL_PLATFORMS = {
-    "WBTC/BADGER (CURVE)": "Balancer/Aura",
+    "WBTC/BADGER (BALANCER)": "Balancer/Aura",
     "DIGG/GRAVI/WBTC": "Balancer/Aura",
     "BADGER/RETH": "Balancer/Aura",
     "BADGER/FRAXBP": "Curve/Convex/Frax",
