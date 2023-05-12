@@ -1,6 +1,6 @@
 import pandas as pd
 
-from influence_toolkit.constants import POOL_INDEXES
+from influence_toolkit.constants import POOL_PLATFORMS, POOLS
 from influence_toolkit.pool_tvls import get_pool_tvls
 from influence_toolkit.treasury_captures import get_treasury_captures
 from influence_toolkit.aura import aura_mint_ratio
@@ -25,17 +25,15 @@ def pct_format(figure):
 
 
 def dollar_format(figure):
-    return "${:,.2f}".format(figure)
+    return "${:,.0f}".format(figure)
 
 
 def display_current_epoch_df():
     # TODO: grab from endpoint tvl in the bunni token in usd
     tvls = get_pool_tvls() + [0]
-    pools_tvl = [dollar_format(x) for x in tvls]
 
     # captures
     treasury_captures = get_treasury_captures()
-    captures = [pct_format(x) for x in treasury_captures]
 
     # rel.weights
     balancer_weights = get_rel_weights()
@@ -45,6 +43,7 @@ def display_current_epoch_df():
     rel_weights = balancer_weights + [fxs_weight, bunni_weight]
     gauge_rel_weights = [pct_format(x) for x in rel_weights]
     # NOTE: trying to sneak dirt-ily the curve rel.weight
+    # TODO: make this a separate column
     gauge_rel_weights[3] += f", {pct_format(curve_weight)}"
 
     # prices
@@ -63,7 +62,6 @@ def display_current_epoch_df():
 
     # incentive costs
     incentives = get_incentives_cost(badger_price)
-    incentives_dollar_format = [dollar_format(x) for x in incentives]
 
     # revenue estimations
     rev_estimations = []
@@ -73,20 +71,30 @@ def display_current_epoch_df():
             usd_rev = capture * rel_weight * biweekly_bunni_emissions
         else:
             usd_rev = capture * rel_weight * biweekly_emissions_usd
-        rev_estimations.append(dollar_format(usd_rev))
+        rev_estimations.append(usd_rev)
 
     # df
     df = {
-        "Pools": POOL_INDEXES,
-        "TVL": pools_tvl,
-        "Capture": captures,
+        "Platform(s)": "",
+        "Pool": POOLS,
+        "TVL": tvls,
+        "Capture": treasury_captures,
         "Gauge Weight": gauge_rel_weights,
-        "Estimated Revenue": rev_estimations,
-        "Cost": incentives_dollar_format,
+        "Est. Revenue": rev_estimations,
+        "Cost": incentives,
     }
     df = pd.DataFrame(df)
+    df["Platform(s)"] = df["Pool"].map(POOL_PLATFORMS)
+    df["ROI"] = (df["Est. Revenue"] / df["Cost"]).apply(pct_format)
 
-    return df.set_index("Pools")
+    # formatting of columns
+    df["TVL"] = df["TVL"].apply(dollar_format)
+    df["Capture"] = df["Capture"].apply(pct_format)
+    # df["Gauge Weight"] = df["Gauge Weight"].apply(pct_format)  # TODO: need curve column fix first
+    df["Est. Revenue"] = df["Est. Revenue"].apply(dollar_format)
+    df["Cost"] = df["Cost"].apply(dollar_format)
+
+    return df.set_index(["Platform(s)", "Pool"])
 
 
 def display_aura_df():
