@@ -51,10 +51,9 @@ def display_current_epoch_df():
     curve_weight = get_badger_fraxbp_curve_gauge_weight()
     bunni_weight = get_bunni_gauge_weight()
     rel_weights = balancer_weights + [fxs_weight, bunni_weight]
-    gauge_rel_weights = [pct_format(x) for x in rel_weights]
-    # NOTE: trying to sneak dirt-ily the curve rel.weight
-    # TODO: make this a separate column
-    gauge_rel_weights[3] += f", {pct_format(curve_weight)}"
+    lvl1_weights = balancer_weights + [curve_weight, 0]
+    lvl2_weights = [0, 0, 0, 0, bunni_weight]  # TODO: aura/convex weights?
+    lvl3_weights = [0, 0, 0, fxs_weight, 0]
 
     # prices
     bal_price, aura_price = get_aura_prices()
@@ -108,19 +107,23 @@ def display_current_epoch_df():
         "Pool": POOLS,
         "TVL": tvls,
         "Capture": treasury_captures,
-        "Gauge Weight": gauge_rel_weights,
+        "Lvl1 Gauge": lvl1_weights,
+        "Lvl2 Gauge": lvl2_weights,
+        "Lvl3 Gauge": lvl3_weights,
         "Gross Revenue": gross_rev,
         "Net Revenue": net_revenue,
         "Cost": incentives,
     }
     df = pd.DataFrame(df)
     df["Platform(s)"] = df["Pool"].map(POOL_PLATFORMS)
-    df["ROI"] = (df["Gross Revenue"] / df["Cost"]).apply(pct_format)
+    df["ROI"] = (df["Net Revenue"] / df["Cost"]).apply(pct_format)
 
     # formatting of columns
     df["TVL"] = df["TVL"].apply(dollar_format)
     df["Capture"] = df["Capture"].apply(pct_format)
-    # df["Gauge Weight"] = df["Gauge Weight"].apply(pct_format)  # TODO: need curve column fix first
+    df["Lvl1 Gauge"] = df["Lvl1 Gauge"].apply(pct_format)
+    df["Lvl2 Gauge"] = df["Lvl2 Gauge"].apply(pct_format)
+    df["Lvl3 Gauge"] = df["Lvl3 Gauge"].apply(pct_format)
     df["Gross Revenue"] = df["Gross Revenue"].apply(dollar_format)
     df["Net Revenue"] = df["Net Revenue"].apply(dollar_format)
     df["Cost"] = df["Cost"].apply(dollar_format)
