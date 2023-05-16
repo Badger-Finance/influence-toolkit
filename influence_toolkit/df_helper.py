@@ -1,3 +1,4 @@
+import numpy as np
 import pandas as pd
 
 from influence_toolkit.constants import POOL_PLATFORMS, POOLS
@@ -51,9 +52,15 @@ def display_current_epoch_df():
     curve_weight = get_badger_fraxbp_curve_gauge_weight()
     bunni_weight = get_bunni_gauge_weight()
     rel_weights = balancer_weights + [fxs_weight, bunni_weight]
-    lvl1_weights = balancer_weights + [curve_weight, 0]
-    lvl2_weights = [0, 0, 0, 0, bunni_weight]  # TODO: aura/convex weights?
-    lvl3_weights = [0, 0, 0, fxs_weight, 0]
+    lvl1_weights = balancer_weights + [curve_weight, np.nan]
+    lvl2_weights = [
+        np.nan,
+        np.nan,
+        np.nan,
+        np.nan,
+        bunni_weight,
+    ]  # TODO: add aura/convex weights?
+    lvl3_weights = [np.nan, np.nan, np.nan, fxs_weight, ""]
 
     # prices
     bal_price, aura_price = get_aura_prices()
