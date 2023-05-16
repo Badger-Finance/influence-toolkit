@@ -81,7 +81,9 @@ def display_current_epoch_df():
 
     cvx_ratio = cvx_mint_ratio()
     # NOTE: in this case we are no deducting the fee here, since for badger/fraxbp fee is only taken in the shape of FXS
-    biweekly_convex_emissions_usd = convex_biweekly_emissions(cvx_ratio, cvx_price, crv_price, with_fee=False)
+    biweekly_convex_emissions_usd = convex_biweekly_emissions(
+        cvx_ratio, cvx_price, crv_price, with_fee=False
+    )
 
     biweekly_frax_emissions_usd = frax_weekly_emissions(fxs_price) * 2
 
