@@ -60,7 +60,7 @@ def display_current_epoch_df():
         np.nan,
         bunni_weight,
     ]  # TODO: add aura/convex weights?
-    lvl3_weights = [np.nan, np.nan, np.nan, fxs_weight, ""]
+    lvl3_weights = [np.nan, np.nan, np.nan, fxs_weight, np.nan]
 
     # prices
     bal_price, aura_price = get_aura_prices()
