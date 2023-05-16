@@ -82,18 +82,25 @@ def display_current_epoch_df():
     vebal_per_aura = vebal_controlled_per_aura()
     total_vebal_vp = total_aura_vp * vebal_per_aura
 
-    # revenue estimations
-    rev_estimations = []
+    # gross revenue estimations
+    gross_rev = []
     for idx, capture in enumerate(treasury_captures):
         rel_weight = rel_weights[idx]
-        if idx == Gauges.BADGER_WBTC_BALANCER:
-            rel_weight_reducted = get_rel_weight_reducted(total_vebal_vp)
-            usd_rev = capture * rel_weight_reducted * biweekly_emissions_usd
-        elif idx == Gauges.BADGER_WBTC_BUNNI:
+        if idx == Gauges.BADGER_WBTC_BUNNI:
             usd_rev = capture * rel_weight * biweekly_bunni_emissions
         else:
             usd_rev = capture * rel_weight * biweekly_emissions_usd
-        rev_estimations.append(usd_rev)
+        gross_rev.append(usd_rev)
+
+    # net revenue estimations
+    net_revenue = []
+    for idx, gross in enumerate(gross_rev):
+        if idx == Gauges.BADGER_WBTC_BALANCER:
+            rel_weight_reducted = get_rel_weight_reducted(total_vebal_vp)
+            net_rev = gross / rel_weights[idx] * rel_weight_reducted
+        else:
+            net_rev = gross
+        net_revenue.append(net_rev)
 
     # df
     df = {
@@ -102,18 +109,20 @@ def display_current_epoch_df():
         "TVL": tvls,
         "Capture": treasury_captures,
         "Gauge Weight": gauge_rel_weights,
-        "Est. Revenue": rev_estimations,
+        "Gross Revenue": gross_rev,
+        "Net Revenue": net_revenue,
         "Cost": incentives,
     }
     df = pd.DataFrame(df)
     df["Platform(s)"] = df["Pool"].map(POOL_PLATFORMS)
-    df["ROI"] = (df["Est. Revenue"] / df["Cost"]).apply(pct_format)
+    df["ROI"] = (df["Gross Revenue"] / df["Cost"]).apply(pct_format)
 
     # formatting of columns
     df["TVL"] = df["TVL"].apply(dollar_format)
     df["Capture"] = df["Capture"].apply(pct_format)
     # df["Gauge Weight"] = df["Gauge Weight"].apply(pct_format)  # TODO: need curve column fix first
-    df["Est. Revenue"] = df["Est. Revenue"].apply(dollar_format)
+    df["Gross Revenue"] = df["Gross Revenue"].apply(dollar_format)
+    df["Net Revenue"] = df["Net Revenue"].apply(dollar_format)
     df["Cost"] = df["Cost"].apply(dollar_format)
 
     return df.set_index(["Platform(s)", "Pool"])
