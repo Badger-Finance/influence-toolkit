@@ -71,6 +71,22 @@ def get_rel_weights():
     return [weight_badger_wbtc, weight_digg_gravi, weight_badger_reth]
 
 
+def get_rel_weight_reducted(total_vebal_vp):
+    """
+    Calculates the rel.weight of specific gauge deducting a specific
+    amount of vebal voting weight (coming from treasury & council fees)
+    """
+    # contracts
+    gauge_controller = Contract(BALANCER_GAUGE_CONTROLLER)
+
+    gauge_weight = gauge_controller.get_gauge_weight(BALANCER_BADGER_WBTC_GAUGE) / 1e18
+    total_weight = gauge_controller.get_total_weight() / 1e18
+
+    real_weight_bought = gauge_weight - total_vebal_vp
+
+    return real_weight_bought / total_weight
+
+
 def get_gravi_in_balancer_pool(balancer_vault):
     digg_pool_info = balancer_vault.getPoolTokens(POOL_ID_DIGG)
     gravi_in_digg_pool = digg_pool_info[1][2] / 1e18

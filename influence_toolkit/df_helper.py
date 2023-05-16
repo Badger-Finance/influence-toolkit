@@ -7,6 +7,7 @@ from influence_toolkit.aura import aura_mint_ratio
 from influence_toolkit.aura import weekly_emissions_after_fee
 from influence_toolkit.aura import aura_vebal_controlled
 from influence_toolkit.aura import get_rel_weights
+from influence_toolkit.aura import get_rel_weight_reducted
 from influence_toolkit.aura import vebal_controlled_per_aura
 from influence_toolkit.bunni import get_bunni_gauge_weight
 from influence_toolkit.bunni import get_bunni_weekly_emissions
@@ -18,6 +19,15 @@ from influence_toolkit.convex import get_badger_fraxbp_curve_gauge_weight
 from influence_toolkit.incentives_cost import get_incentives_cost
 from influence_toolkit.vp_info import get_council_vp_fee
 from influence_toolkit.vp_info import get_voter_vp
+
+
+# class with enums to avoid magical numbers in conditionals
+class Gauges:
+    BADGER_WBTC_BALANCER = 0
+    DIGG_GRAVI_WBTC_BALANCER = 1
+    BADGER_RETH_BALANCER = 2
+    BADGER_FRAXBP = 3
+    BADGER_WBTC_BUNNI = 4
 
 
 def pct_format(figure):
@@ -63,11 +73,23 @@ def display_current_epoch_df():
     # incentive costs
     incentives = get_incentives_cost(badger_price)
 
+    # deduct vp coming from our voter_msig & council fee
+    # currently assume all is "hard-coded" into wbtc/badger gauge
+    voters_msig_aura_vp = get_voter_vp()
+    council_fee_aura_vp = get_council_vp_fee()
+    total_aura_vp = voters_msig_aura_vp + council_fee_aura_vp
+
+    vebal_per_aura = vebal_controlled_per_aura()
+    total_vebal_vp = total_aura_vp * vebal_per_aura
+
     # revenue estimations
     rev_estimations = []
     for idx, capture in enumerate(treasury_captures):
         rel_weight = rel_weights[idx]
-        if idx == 4:
+        if idx == Gauges.BADGER_WBTC_BALANCER:
+            rel_weight_reducted = get_rel_weight_reducted(total_vebal_vp)
+            usd_rev = capture * rel_weight_reducted * biweekly_emissions_usd
+        elif idx == Gauges.BADGER_WBTC_BUNNI:
             usd_rev = capture * rel_weight * biweekly_bunni_emissions
         else:
             usd_rev = capture * rel_weight * biweekly_emissions_usd
