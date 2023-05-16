@@ -25,11 +25,10 @@ def get_badger_price():
 
 def get_convex_prices():
     prices = CoinGeckoAPI().get_price(
-        ["convex-finance", "curve-dao-token", "badger-dao", "frax-share"], "usd"
+        ["convex-finance", "curve-dao-token", "frax-share"], "usd"
     )
     cvx_price = prices["convex-finance"]["usd"]
     crv_price = prices["curve-dao-token"]["usd"]
-    badger_price = prices["badger-dao"]["usd"]
     fxs_price = prices["frax-share"]["usd"]
 
-    return cvx_price, crv_price, badger_price, fxs_price
+    return cvx_price, crv_price, fxs_price
