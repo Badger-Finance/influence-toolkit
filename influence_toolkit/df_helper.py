@@ -32,7 +32,7 @@ class Gauges:
 
 
 def pct_format(figure):
-    if figure == np.nan:
+    if np.isnan(figure):
         return ""
     return "{0:.1%}".format(figure)
 
