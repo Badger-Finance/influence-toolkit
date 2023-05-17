@@ -43,7 +43,10 @@ def pct_format(figure):
 
 
 def dollar_format(figure):
-    return "${:,.0f}".format(figure)
+    if figure > 1:
+        return "${:,.0f}".format(figure)
+    else:
+        return "${:,.3f}".format(figure)
 
 
 def display_current_epoch_df():
