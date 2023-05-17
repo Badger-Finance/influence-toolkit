@@ -24,6 +24,7 @@ from influence_toolkit.convex import frax_weekly_emissions
 from influence_toolkit.incentives_cost import get_incentives_cost
 from influence_toolkit.vp_info import get_council_vp_fee
 from influence_toolkit.vp_info import get_voter_vp
+from influence_toolkit.bribe_hh import get_usd_vlaura_hh
 
 
 # class with enums to avoid magical numbers in conditionals
@@ -164,6 +165,8 @@ def display_aura_df():
         "Council Fee VP",
         "veBAL per Aura",
         "Aura veBAL controlled",
+        "$/vlAURA Last Round",
+        "Est. Treasury Revenue HH",
     ]
 
     mint_ratio = aura_mint_ratio()
@@ -171,8 +174,20 @@ def display_aura_df():
     council_fee = get_council_vp_fee()
     vebal_per_aura = vebal_controlled_per_aura()
     aura_vebal_pct = pct_format(aura_vebal_controlled())
+    avg_dollar_per_vlaura_vote = get_usd_vlaura_hh()
+    rev_treasury_hh = dollar_format(treasury_votes * avg_dollar_per_vlaura_vote)
 
-    data = [[mint_ratio, treasury_votes, council_fee, vebal_per_aura, aura_vebal_pct]]
+    data = [
+        [
+            mint_ratio,
+            treasury_votes,
+            council_fee,
+            vebal_per_aura,
+            aura_vebal_pct,
+            dollar_format(avg_dollar_per_vlaura_vote),
+            rev_treasury_hh,
+        ]
+    ]
 
     df = pd.DataFrame(data, columns=headers)
 

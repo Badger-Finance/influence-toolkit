@@ -109,6 +109,7 @@ BALANCER_SUBGRAPH = "https://api.thegraph.com/subgraphs/name/balancer-labs/balan
 BUNNI_SUBGRAPH = "https://api.thegraph.com/subgraphs/name/bunniapp/bunni-mainnet"
 SNAPSHOT_SUBGRAPH = "https://hub.snapshot.org/graphql?"
 LLAMA_DASHBOARD_URL = "https://api.llama.airforce//dashboard"
+BRIBES_URL = "https://api.llama.airforce/bribes"
 CURVE_FACTORY_URL = "https://api.curve.fi/api/getPools/ethereum/factory-crypto"
 
 # misc
