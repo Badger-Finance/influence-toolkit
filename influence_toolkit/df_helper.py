@@ -43,10 +43,12 @@ def pct_format(figure):
 
 
 def dollar_format(figure):
+    if np.isnan(figure):
+        return ""
     if figure > 1:
         return "${:,.0f}".format(figure)
     else:
-        return "${:,.3f}".format(figure)
+        return "${:,.1f}".format(figure)
 
 
 def display_current_epoch_df():
@@ -153,17 +155,17 @@ def display_current_epoch_df():
     df = {
         "Platform(s)": "",
         "Pool": POOLS,
-        "TVL": tvls,
         "Lvl1 Emissions": lvl1_emissions,
         "Lvl2 Emissions": lvl2_emissions,
         "Lvl3 Emissions": lvl3_emissions,
-        "Capture": treasury_captures,
         "Lvl1 Gauge": lvl1_weights,
         "Lvl2 Gauge": lvl2_weights,
         "Lvl3 Gauge": lvl3_weights,
+        "Capture": treasury_captures,
         "Gross Revenue": gross_rev,
         "Net Revenue": net_revenue,
         "Cost": incentives,
+        "TVL": tvls,
     }
     df = pd.DataFrame(df)
     df["Platform(s)"] = df["Pool"].map(POOL_PLATFORMS)
@@ -182,7 +184,7 @@ def display_current_epoch_df():
     df["Net Revenue"] = df["Net Revenue"].apply(dollar_format)
     df["Cost"] = df["Cost"].apply(dollar_format)
 
-    return df.set_index(["Platform(s)", "Pool"])
+    return df.set_index(["Platform(s)", "Pool", "Lvl1 Emissions", "Lvl2 Emissions", "Lvl3 Emissions"])
 
 
 def display_aura_df():
