@@ -78,14 +78,32 @@ def display_current_epoch_df():
     badger_price = get_badger_price()
     cvx_price, crv_price, fxs_price = get_convex_prices()
 
+    # emissions
+    lvl1_emissions = [
+        biweekly_bal_emissions_usd,
+        biweekly_bal_emissions_usd,
+        biweekly_bal_emissions_usd,
+        biweekly_curve_emissions_usd,
+        np.nan
+    ]
+    lvl2_emissions = [
+        biweekly_aura_emissions_usd,
+        biweekly_aura_emissions_usd,
+        biweekly_aura_emissions_usd,
+        biweekly_convex_emissions_usd,
+        biweekly_bunni_emissions
+    ]
+    lvl3_emissions = [np.nan, np.nan, np.nan, biweekly_frax_emissions_usd, np.nan]
+
     # ecosystem emissions
     mint_ratio = aura_mint_ratio()
-    weekly_emissions_usd = weekly_emissions_after_fee(mint_ratio, bal_price, aura_price)
-    biweekly_aura_emissions_usd = weekly_emissions_usd * 2
+    weekly_emissions_bal_usd, weekly_emissions_aura_usd = weekly_emissions_after_fee(mint_ratio, bal_price, aura_price)
+    biweekly_bal_emissions_usd = weekly_emissions_bal_usd * 2
+    biweekly_aura_emissions_usd = weekly_emissions_aura_usd * 2
 
     cvx_ratio = cvx_mint_ratio()
     # NOTE: in this case we are no deducting the fee here, since for badger/fraxbp fee is only taken in the shape of FXS
-    biweekly_convex_emissions_usd = convex_biweekly_emissions(
+    biweekly_curve_emissions_usd, biweekly_convex_emissions_usd = convex_biweekly_emissions(
         cvx_ratio, cvx_price, crv_price, with_fee=False
     )
 
@@ -136,6 +154,9 @@ def display_current_epoch_df():
         "Platform(s)": "",
         "Pool": POOLS,
         "TVL": tvls,
+        "Lvl1 Emissions": lvl1_emissions,
+        "Lvl2 Emissions": lvl2_emissions,
+        "Lvl3 Emissions": lvl3_emissions,
         "Capture": treasury_captures,
         "Lvl1 Gauge": lvl1_weights,
         "Lvl2 Gauge": lvl2_weights,
@@ -150,6 +171,9 @@ def display_current_epoch_df():
 
     # formatting of columns
     df["TVL"] = df["TVL"].apply(dollar_format)
+    df["Lvl1 Emissions"] = df["Lvl1 Emissions"].apply(dollar_format)
+    df["Lvl2 Emissions"] = df["Lvl2 Emissions"].apply(dollar_format)
+    df["Lvl3 Emissions"] = df["Lvl3 Emissions"].apply(dollar_format)
     df["Capture"] = df["Capture"].apply(pct_format)
     df["Lvl1 Gauge"] = df["Lvl1 Gauge"].apply(pct_format)
     df["Lvl2 Gauge"] = df["Lvl2 Gauge"].apply(pct_format)
