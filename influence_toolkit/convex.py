@@ -40,8 +40,9 @@ def convex_biweekly_emissions(cvx_mint_ratio, cvx_price, crv_price, with_fee=Tru
         round_emissions = (ems_upcoming_round - ems_today) * (1 - CVX_FEE)
     else:
         round_emissions = ems_upcoming_round - ems_today
-    biweekly_emissions = round_emissions * crv_price + round_emissions * cvx_mint_ratio * cvx_price
-    return biweekly_emissions
+    biweekly_emissions_curve = round_emissions * crv_price
+    biweekly_emissions_convex = round_emissions * cvx_mint_ratio * cvx_price
+    return biweekly_emissions_curve, biweekly_emissions_convex
 
 
 def frax_weekly_emissions(fxs_price):

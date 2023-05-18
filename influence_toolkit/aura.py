@@ -26,11 +26,9 @@ def aura_mint_ratio():
 
 
 def weekly_emissions_after_fee(aura_mint_ratio, bal_price, aura_price):
-    weekly_emissions = (
-        BALANCER_EMISSIONS * bal_price + BALANCER_EMISSIONS * aura_mint_ratio * aura_price
-    )
-    weekly_emissions_after_fee = weekly_emissions * (1 - AURA_FEE)
-    return weekly_emissions_after_fee
+    weekly_emissions_bal_after_fee = BALANCER_EMISSIONS * bal_price * (1 - AURA_FEE)
+    weekly_emissions_aura_after_fee = BALANCER_EMISSIONS * aura_mint_ratio * aura_price * (1 - AURA_FEE)
+    return weekly_emissions_bal_after_fee, weekly_emissions_aura_after_fee
 
 
 def aura_vebal_controlled():
