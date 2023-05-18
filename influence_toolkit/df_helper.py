@@ -39,7 +39,7 @@ class Gauges:
 def pct_format(figure):
     if np.isnan(figure):
         return ""
-    return "{0:.1%}".format(figure)
+    return "{0:.2%}".format(figure)
 
 
 def dollar_format(figure):
@@ -48,7 +48,7 @@ def dollar_format(figure):
     if figure > 1:
         return "${:,.0f}".format(figure)
     else:
-        return "${:,.1f}".format(figure)
+        return "${:,.2f}".format(figure)
 
 
 def display_current_epoch_df():
@@ -165,14 +165,14 @@ def display_current_epoch_df():
         "Gross Revenue": gross_rev,
         "Net Revenue": net_revenue,
         "Cost": incentives,
-        "TVL": tvls,
+        # "TVL": tvls,
     }
     df = pd.DataFrame(df)
     df["Platform(s)"] = df["Pool"].map(POOL_PLATFORMS)
     df["ROI"] = (df["Net Revenue"] / df["Cost"]).apply(pct_format)
 
     # formatting of columns
-    df["TVL"] = df["TVL"].apply(dollar_format)
+    # df["TVL"] = df["TVL"].apply(dollar_format)
     df["Lvl1 Emissions"] = df["Lvl1 Emissions"].apply(dollar_format)
     df["Lvl2 Emissions"] = df["Lvl2 Emissions"].apply(dollar_format)
     df["Lvl3 Emissions"] = df["Lvl3 Emissions"].apply(dollar_format)
