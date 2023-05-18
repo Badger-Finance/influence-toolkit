@@ -18,6 +18,10 @@ from influence_toolkit.constants import WEEK
 
 
 def _get_incentives_per_market(briber_contract, start_block):
+    """
+    Retrieves `DepositBribe` events from briber contracts from
+    the starting block until most recent block
+    """
     df = Contract(briber_contract).DepositBribe.query(
         "transaction_hash",
         "block_number",
@@ -35,6 +39,10 @@ def _get_incentives_per_market(briber_contract, start_block):
 
 
 def get_incentives_cost(badger_price):
+    """
+    Calculates the incentive cost in usd from the past round
+    for different markets in HH: balancer & bunni
+    """
     # we cap reading for 2w back
     current_block = chain.blocks.height
     blocks_per_week = 60 * 60 * 24 * WEEK / SECONDS_PER_BLOCK
