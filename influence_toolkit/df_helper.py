@@ -184,7 +184,9 @@ def display_current_epoch_df():
     df["Net Revenue"] = df["Net Revenue"].apply(dollar_format)
     df["Cost"] = df["Cost"].apply(dollar_format)
 
-    return df.set_index(["Platform(s)", "Pool", "Lvl1 Emissions", "Lvl2 Emissions", "Lvl3 Emissions"])
+    return df.set_index([
+        "Platform(s)", "Lvl1 Emissions", "Lvl2 Emissions", "Lvl3 Emissions", "Pool"
+    ])
 
 
 def display_aura_df():
