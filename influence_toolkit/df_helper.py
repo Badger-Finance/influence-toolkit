@@ -78,23 +78,6 @@ def display_current_epoch_df():
     badger_price = get_badger_price()
     cvx_price, crv_price, fxs_price = get_convex_prices()
 
-    # emissions
-    lvl1_emissions = [
-        biweekly_bal_emissions_usd,
-        biweekly_bal_emissions_usd,
-        biweekly_bal_emissions_usd,
-        biweekly_curve_emissions_usd,
-        np.nan
-    ]
-    lvl2_emissions = [
-        biweekly_aura_emissions_usd,
-        biweekly_aura_emissions_usd,
-        biweekly_aura_emissions_usd,
-        biweekly_convex_emissions_usd,
-        biweekly_bunni_emissions
-    ]
-    lvl3_emissions = [np.nan, np.nan, np.nan, biweekly_frax_emissions_usd, np.nan]
-
     # ecosystem emissions
     mint_ratio = aura_mint_ratio()
     weekly_emissions_bal_usd, weekly_emissions_aura_usd = weekly_emissions_after_fee(mint_ratio, bal_price, aura_price)
@@ -111,6 +94,23 @@ def display_current_epoch_df():
 
     weekly_bunni_emissions = get_bunni_weekly_emissions(lit_price)
     biweekly_bunni_emissions = weekly_bunni_emissions * 2
+
+    # emissions
+    lvl1_emissions = [
+        biweekly_bal_emissions_usd,
+        biweekly_bal_emissions_usd,
+        biweekly_bal_emissions_usd,
+        biweekly_curve_emissions_usd,
+        np.nan
+    ]
+    lvl2_emissions = [
+        biweekly_aura_emissions_usd,
+        biweekly_aura_emissions_usd,
+        biweekly_aura_emissions_usd,
+        biweekly_convex_emissions_usd,
+        biweekly_bunni_emissions
+    ]
+    lvl3_emissions = [np.nan, np.nan, np.nan, biweekly_frax_emissions_usd, np.nan]
 
     # incentive costs
     incentives = get_incentives_cost(badger_price)
