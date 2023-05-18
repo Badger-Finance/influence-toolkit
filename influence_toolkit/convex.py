@@ -28,7 +28,9 @@ def cvx_mint_ratio():
 
 def convex_biweekly_emissions(cvx_mint_ratio, cvx_price, crv_price, with_fee=True):
     # borrow from: https://github.com/Badger-Finance/badger-ape/blob/convex_curve_wars/scripts/convex_curve_wars_votium.py#L29
-    schedules = pd.read_csv('https://raw.githubusercontent.com/Badger-Finance/badger-ape/convex_curve_wars/data/curve-release-schedule.csv?token=GHSAT0AAAAAACADBOXLDUI54BWROBENGPZSZDGDNAQ')
+    schedules = pd.read_csv(
+        'https://raw.githubusercontent.com/Badger-Finance/badger-influence-analytics/master/notebooks/cvx_bribes/curve-release-schedule.csv'
+    )
     schedules["DateTime"] = pd.date_range("2020-08-13", periods=2190, freq="D")
     schedules = schedules.set_index("DateTime")
     ems_upcoming_round = schedules["Community"].loc[
