@@ -14,6 +14,9 @@ from influence_toolkit.constants import VLAURA
 
 
 def aura_mint_ratio():
+    """
+    Fetches the current minting aura ratio per bal emitted
+    """
     aura = Contract(AURA)
     total_cliffs = aura.totalCliffs()
     cliff_reduction = aura.reductionPerCliff() / 1e18
@@ -26,14 +29,20 @@ def aura_mint_ratio():
 
 
 def weekly_emissions_after_fee(aura_mint_ratio, bal_price, aura_price):
-    weekly_emissions = (
-        BALANCER_EMISSIONS * bal_price + BALANCER_EMISSIONS * aura_mint_ratio * aura_price
-    )
-    weekly_emissions_after_fee = weekly_emissions * (1 - AURA_FEE)
-    return weekly_emissions_after_fee
+    """
+    Calculates the weekly ecosystem usd emissions and returns balancer emissions
+    with the fee reduction and the total emitted aura based on the current minting ratio
+    """
+    # NOTE: fee is uniquely taken out from the base protocol asset
+    weekly_emissions_bal_after_fee = BALANCER_EMISSIONS * bal_price * (1 - AURA_FEE)
+    weekly_emissions_aura_after_fee = BALANCER_EMISSIONS * aura_mint_ratio * aura_price
+    return weekly_emissions_bal_after_fee, weekly_emissions_aura_after_fee
 
 
 def aura_vebal_controlled():
+    """
+    Fetches the amount of veBAL controlled by Aura
+    """
     # contracts
     vebal = Contract(VEBAL)
 
@@ -46,6 +55,9 @@ def aura_vebal_controlled():
 
 
 def vebal_controlled_per_aura():
+    """
+    Calculates one much veBal is controlled per AURA
+    """
     # contracts
     vebal = Contract(VEBAL)
     vlAURA = Contract(VLAURA)
@@ -61,6 +73,10 @@ def vebal_controlled_per_aura():
 
 
 def get_rel_weights():
+    """
+    Retrieves the relative current weight for three of the DAO's gauges:
+    badger/wbtc, badger/reth and digg/wbtc/gravi
+    """
     # contracts
     gauge_controller = Contract(BALANCER_GAUGE_CONTROLLER)
 
@@ -88,6 +104,10 @@ def get_rel_weight_reducted(total_vebal_vp):
 
 
 def get_gravi_in_balancer_pool(balancer_vault):
+    """
+    Fetches the current amount of graviAURA deposited in
+    the digg/wbtc/gravi pool
+    """
     digg_pool_info = balancer_vault.getPoolTokens(POOL_ID_DIGG)
     gravi_in_digg_pool = digg_pool_info[1][2] / 1e18
     return gravi_in_digg_pool
