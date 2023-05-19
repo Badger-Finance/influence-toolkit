@@ -2,7 +2,6 @@ import requests
 
 from influence_toolkit.constants import BALANCER_SUBGRAPH
 from influence_toolkit.constants import SNAPSHOT_SUBGRAPH
-from influence_toolkit.constants import LLAMA_DASHBOARD_URL
 from influence_toolkit.constants import CURVE_FACTORY_URL
 from influence_toolkit.constants import POOL_ID_BADGER
 from influence_toolkit.constants import POOL_ID_DIGG
@@ -28,14 +27,6 @@ TVL_QUERY = """
           }
         }
         """
-
-
-# methods to hit endpoints
-def get_cost_per_vote_after_fee(id):
-    aura_dash = requests.post(LLAMA_DASHBOARD_URL, json={"id": id}).json()
-    cost_per_vote_last_round = aura_dash["dashboard"]["epochs"][-1]["dollarPerVlAsset"]
-    cost_per_vote_after_fee = cost_per_vote_last_round * (1.04)
-    return cost_per_vote_after_fee
 
 
 def get_proposal_info(proposal_id):

@@ -32,6 +32,8 @@ BALANCER_DIGG_GRAVI_GAUGE = "0xE5f24cD43f77fadF4dB33Dab44EB25774159AC66"
 BALANCER_BADGER_RETH_GAUGE = "0x87012b0C3257423fD74a5986F81a0f1954C17a1d"
 
 # curve/convex
+CONVEX = "0x4e3FBD56CD56c3e72c1403e103b45Db9da5B9D2B"
+
 CURVE_GAUGE_CONTROLLER = "0x2F50D538606Fa9EDD2B11E2446BEb18C9D5846bB"
 CURVE_BADGER_FRAXBP_LP = "0x09b2E090531228d1b8E3d948C73b990Cb6e60720"
 CURVE_BADGER_FRAXBP_POOL = "0x13B876C26Ad6d21cb87AE459EaF6d7A1b788A113"
@@ -107,6 +109,7 @@ BALANCER_SUBGRAPH = "https://api.thegraph.com/subgraphs/name/balancer-labs/balan
 BUNNI_SUBGRAPH = "https://api.thegraph.com/subgraphs/name/bunniapp/bunni-mainnet"
 SNAPSHOT_SUBGRAPH = "https://hub.snapshot.org/graphql?"
 LLAMA_DASHBOARD_URL = "https://api.llama.airforce//dashboard"
+BRIBES_URL = "https://api.llama.airforce/bribes"
 CURVE_FACTORY_URL = "https://api.curve.fi/api/getPools/ethereum/factory-crypto"
 
 # misc
