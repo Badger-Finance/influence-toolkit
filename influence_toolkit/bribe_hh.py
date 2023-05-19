@@ -4,6 +4,9 @@ from influence_toolkit.constants import LLAMA_DASHBOARD_URL
 
 
 def get_usd_vlaura_hh():
+    """
+    Fetches last round $/vlAURA value
+    """
     r = requests.post(
         LLAMA_DASHBOARD_URL,
         json={"id": "bribes-overview-aura"},

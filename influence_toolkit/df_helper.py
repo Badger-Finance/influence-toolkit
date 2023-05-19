@@ -82,7 +82,9 @@ def display_current_epoch_df():
 
     # ecosystem emissions
     mint_ratio = aura_mint_ratio()
-    weekly_emissions_bal_usd, weekly_emissions_aura_usd = weekly_emissions_after_fee(mint_ratio, bal_price, aura_price)
+    weekly_emissions_bal_usd, weekly_emissions_aura_usd = weekly_emissions_after_fee(
+        mint_ratio, bal_price, aura_price
+    )
     biweekly_bal_emissions_usd = weekly_emissions_bal_usd * 2
     biweekly_aura_emissions_usd = weekly_emissions_aura_usd * 2
 
@@ -103,14 +105,14 @@ def display_current_epoch_df():
         biweekly_bal_emissions_usd,
         biweekly_bal_emissions_usd,
         biweekly_curve_emissions_usd,
-        np.nan
+        np.nan,
     ]
     lvl2_emissions = [
         biweekly_aura_emissions_usd,
         biweekly_aura_emissions_usd,
         biweekly_aura_emissions_usd,
         biweekly_convex_emissions_usd,
-        biweekly_bunni_emissions
+        biweekly_bunni_emissions,
     ]
     lvl3_emissions = [np.nan, np.nan, np.nan, biweekly_frax_emissions_usd, np.nan]
 
@@ -134,11 +136,15 @@ def display_current_epoch_df():
             usd_rev = capture * rel_weight * biweekly_bunni_emissions
         elif idx == Gauges.BADGER_FRAXBP:
             # here we include both set of emissions: crv, cvx & fxs
-            usd_rev_convex = capture * curve_weight * biweekly_convex_emissions_usd
+            total_convex_emissions_usd = (
+                biweekly_curve_emissions_usd + biweekly_convex_emissions_usd
+            )
+            usd_rev_convex = capture * curve_weight * total_convex_emissions_usd
             usd_rev_frax = capture * fxs_weight * biweekly_frax_emissions_usd
             usd_rev = usd_rev_convex + usd_rev_frax
         else:
-            usd_rev = capture * rel_weight * biweekly_aura_emissions_usd
+            total_aura_emissions_usd = biweekly_bal_emissions_usd + biweekly_aura_emissions_usd
+            usd_rev = capture * rel_weight * total_aura_emissions_usd
         gross_rev.append(usd_rev)
 
     # net revenue estimations
@@ -184,9 +190,9 @@ def display_current_epoch_df():
     df["Net Revenue"] = df["Net Revenue"].apply(dollar_format)
     df["Cost"] = df["Cost"].apply(dollar_format)
 
-    return df.set_index([
-        "Platform(s)", "Lvl1 Emissions", "Lvl2 Emissions", "Lvl3 Emissions", "Pool"
-    ])
+    return df.set_index(
+        ["Platform(s)", "Lvl1 Emissions", "Lvl2 Emissions", "Lvl3 Emissions", "Pool"]
+    )
 
 
 def display_aura_df():
