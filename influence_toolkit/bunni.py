@@ -73,9 +73,8 @@ def get_treasury_bunni_gauge_capture():
 
     # calc individual staking weight and total
     df_depositors["staking_weight"] = df_depositors.apply(
-        lambda x: _staking_weight_formula(
-            x["balance"], gauge_supply, x["velit_balance"], velit_supply
-        )
+        lambda x: _staking_weight_formula(x.balance, gauge_supply, x.velit_balance, velit_supply),
+        axis=1,
     )
 
     total_staking_weight = df_depositors["staking_weight"].sum()
