@@ -43,7 +43,7 @@ def _staking_weight_formula(lp_balance, total_liquidity, velit_balance, velit_su
     )
 
 
-def get_treasury_gauge_capture():
+def get_treasury_bunni_gauge_capture():
     """
     Calculates the treasury gauge capture considering other
     depositors and their velit holdings
