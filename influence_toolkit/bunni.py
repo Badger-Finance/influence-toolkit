@@ -80,6 +80,6 @@ def get_treasury_bunni_gauge_capture():
     total_staking_weight = df_depositors["staking_weight"].sum()
 
     treasury_row = df_depositors.query("provider == @TREASURY_VAULT_MSIG")
-    treasury_gauge_capture = treasury_row["balance"].iloc[0] / total_staking_weight
+    treasury_gauge_capture = treasury_row["staking_weight"].iloc[0] / total_staking_weight
 
     return treasury_gauge_capture
