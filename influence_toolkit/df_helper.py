@@ -76,7 +76,7 @@ def display_current_epoch_df():
     lvl3_weights = [np.nan, np.nan, np.nan, fxs_weight, np.nan]
 
     # reward captures
-    reward_captures = treasury_captures
+    reward_captures = treasury_captures[:]
     reward_captures[-1] = get_treasury_bunni_gauge_capture()
 
     # prices
