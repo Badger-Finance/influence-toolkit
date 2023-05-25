@@ -12,6 +12,7 @@ from influence_toolkit.aura import get_rel_weight_reducted
 from influence_toolkit.aura import vebal_controlled_per_aura
 from influence_toolkit.bunni import get_bunni_gauge_weight
 from influence_toolkit.bunni import get_bunni_weekly_emissions
+from influence_toolkit.bunni import get_treasury_bunni_gauge_capture
 from influence_toolkit.coingecko import get_aura_prices
 from influence_toolkit.coingecko import get_bunni_prices
 from influence_toolkit.coingecko import get_badger_price
@@ -55,7 +56,7 @@ def display_current_epoch_df():
     # TODO: grab from endpoint tvl in the bunni token in usd
     tvls = get_pool_tvls() + [0]
 
-    # captures
+    # tvl captures
     treasury_captures = get_treasury_captures()
 
     # rel.weights
@@ -71,8 +72,12 @@ def display_current_epoch_df():
         np.nan,
         np.nan,
         bunni_weight,
-    ]  # TODO: add aura/convex weights?
+    ]
     lvl3_weights = [np.nan, np.nan, np.nan, fxs_weight, np.nan]
+
+    # reward captures
+    reward_captures = treasury_captures
+    reward_captures[-1] = get_treasury_bunni_gauge_capture()
 
     # prices
     bal_price, aura_price = get_aura_prices()
@@ -90,9 +95,10 @@ def display_current_epoch_df():
 
     cvx_ratio = cvx_mint_ratio()
     # NOTE: in this case we are no deducting the fee here, since for badger/fraxbp fee is only taken in the shape of FXS
-    biweekly_curve_emissions_usd, biweekly_convex_emissions_usd = convex_biweekly_emissions(
-        cvx_ratio, cvx_price, crv_price, with_fee=False
-    )
+    (
+        biweekly_curve_emissions_usd,
+        biweekly_convex_emissions_usd,
+    ) = convex_biweekly_emissions(cvx_ratio, cvx_price, crv_price, with_fee=False)
 
     biweekly_frax_emissions_usd = frax_weekly_emissions(fxs_price) * 2
 
@@ -143,7 +149,9 @@ def display_current_epoch_df():
             usd_rev_frax = capture * fxs_weight * biweekly_frax_emissions_usd
             usd_rev = usd_rev_convex + usd_rev_frax
         else:
-            total_aura_emissions_usd = biweekly_bal_emissions_usd + biweekly_aura_emissions_usd
+            total_aura_emissions_usd = (
+                biweekly_bal_emissions_usd + biweekly_aura_emissions_usd
+            )
             usd_rev = capture * rel_weight * total_aura_emissions_usd
         gross_rev.append(usd_rev)
 
@@ -167,7 +175,8 @@ def display_current_epoch_df():
         "Lvl1 Gauge": lvl1_weights,
         "Lvl2 Gauge": lvl2_weights,
         "Lvl3 Gauge": lvl3_weights,
-        "Capture": treasury_captures,
+        "TVL Capture": treasury_captures,
+        "Reward Capture": reward_captures,
         "Gross Revenue": gross_rev,
         "Net Revenue": net_revenue,
         "Cost": incentives,
@@ -182,7 +191,8 @@ def display_current_epoch_df():
     df["Lvl1 Emissions"] = df["Lvl1 Emissions"].apply(dollar_format)
     df["Lvl2 Emissions"] = df["Lvl2 Emissions"].apply(dollar_format)
     df["Lvl3 Emissions"] = df["Lvl3 Emissions"].apply(dollar_format)
-    df["Capture"] = df["Capture"].apply(pct_format)
+    df["TVL Capture"] = df["TVL Capture"].apply(pct_format)
+    df["Reward Capture"] = df["Reward Capture"].apply(pct_format)
     df["Lvl1 Gauge"] = df["Lvl1 Gauge"].apply(pct_format)
     df["Lvl2 Gauge"] = df["Lvl2 Gauge"].apply(pct_format)
     df["Lvl3 Gauge"] = df["Lvl3 Gauge"].apply(pct_format)
