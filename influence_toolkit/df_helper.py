@@ -136,7 +136,7 @@ def display_current_epoch_df():
 
     # gross revenue estimations
     gross_rev = []
-    for idx, capture in enumerate(treasury_captures):
+    for idx, capture in enumerate(reward_captures):
         rel_weight = rel_weights[idx]
         if idx == Gauges.BADGER_WBTC_BUNNI:
             usd_rev = capture * rel_weight * biweekly_bunni_emissions
