@@ -31,7 +31,9 @@ def _get_incentives_per_market(briber_contract, start_block):
         "briber",
         start_block=start_block,
     )
-    df = df[(df["token"] == BADGER) & df["briber"].isin([TROPS_MSIG, TREASURY_VAULT_MSIG])]
+    df = df[
+        (df["token"] == BADGER) & df["briber"].isin([TROPS_MSIG, TREASURY_VAULT_MSIG])
+    ]
     df["Amount"] = df["amount"] / Decimal("1e18")
     df["Proposal"] = df["proposal"].apply(lambda x: x.hex())
 
@@ -52,7 +54,9 @@ def get_incentives_cost(badger_price):
     start_block_bunni = current_block - (blocks_per_week * 3)
 
     # grab cost from all HH marketplaces in the past 2w
-    df_balancer_hh = _get_incentives_per_market(BALANCER_BRIBER_HH, start_block_balancer)
+    df_balancer_hh = _get_incentives_per_market(
+        BALANCER_BRIBER_HH, start_block_balancer
+    )
     # df_aura_hh = _get_incentives_per_market(AURA_BRIBER_HH, start_block)
     # df_frax_hh = _get_incentives_per_market(FRAX_BRIBER_HH, start_block)
     df_bunni_hh = _get_incentives_per_market(BUNNI_BRIBER_HH, start_block_bunni)
