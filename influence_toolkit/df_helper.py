@@ -212,6 +212,7 @@ def display_aura_df():
         "Council Fee VP",
         "veBAL per Aura",
         "Aura veBAL controlled",
+        "Badger veBAL controlled",
         "$/vlAURA Last Round",
         "Est. Treasury Revenue HH",
     ]
@@ -220,9 +221,15 @@ def display_aura_df():
     treasury_votes = get_voter_vp()
     council_fee = get_council_vp_fee()
     vebal_per_aura = vebal_controlled_per_aura()
-    aura_vebal_pct = pct_format(aura_vebal_controlled())
+    aura_vebal, total_vebal = aura_vebal_controlled()
+    aura_vebal_pct = pct_format(aura_vebal)
     avg_dollar_per_vlaura_vote = get_usd_vlaura_hh()
     rev_treasury_hh = dollar_format(treasury_votes * avg_dollar_per_vlaura_vote)
+
+    # total veBAL controlled by treasury and council
+    vebal_badger_controlled = pct_format(
+        ((treasury_votes + council_fee) * aura_vebal) / total_vebal
+    )
 
     data = [
         [
@@ -231,6 +238,7 @@ def display_aura_df():
             council_fee,
             vebal_per_aura,
             aura_vebal_pct,
+            vebal_badger_controlled,
             dollar_format(avg_dollar_per_vlaura_vote),
             rev_treasury_hh,
         ]

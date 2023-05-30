@@ -43,6 +43,7 @@ def weekly_emissions_after_fee(aura_mint_ratio, bal_price, aura_price):
 def aura_vebal_controlled():
     """
     Fetches the amount of veBAL controlled by Aura
+    and total vebal supply
     """
     # contracts
     vebal = Contract(VEBAL)
@@ -52,7 +53,7 @@ def aura_vebal_controlled():
 
     ts_vebal = vebal.totalSupply() / 1e18
 
-    return voter_proxy_aura_vebal_vp / ts_vebal
+    return voter_proxy_aura_vebal_vp / ts_vebal, ts_vebal
 
 
 def vebal_controlled_per_aura():
