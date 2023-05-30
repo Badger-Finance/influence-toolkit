@@ -228,7 +228,7 @@ def display_aura_df():
 
     # total veBAL controlled by treasury and council
     vebal_badger_controlled = pct_format(
-        ((treasury_votes + council_fee) * aura_vebal) / total_vebal
+        ((treasury_votes + council_fee) * vebal_per_aura) / total_vebal
     )
 
     data = [
