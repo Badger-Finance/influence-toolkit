@@ -69,7 +69,7 @@ def get_incentives_cost(badger_price):
                 "Amount"
             ]
         )
-        > 1  # NOTE: in some rounds we may not incentive this marketplace
+        > 0  # NOTE: in some rounds we may not incentive this marketplace
     ):
         wbtc_badger_balancer_incentives = df_balancer_hh[
             df_balancer_hh["Proposal"] == BADGER_WBTC_BALANCER_PROPOSAL
@@ -82,7 +82,7 @@ def get_incentives_cost(badger_price):
                 "Amount"
             ]
         )
-        > 1  # NOTE: in some rounds we may not incentive this marketplace
+        > 0  # NOTE: in some rounds we may not incentive this marketplace
     ):
         badger_reth_balancer_incentives = df_balancer_hh[
             df_balancer_hh["Proposal"] == BADGER_RETH_BALANCER_PROPOSAL
