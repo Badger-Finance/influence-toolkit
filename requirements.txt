@@ -4,3 +4,6 @@ ape-alchemy
 pycoingecko
 requests
 pandas
+
+# dev
+black==23.3.0

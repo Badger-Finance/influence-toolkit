@@ -23,7 +23,8 @@ def aura_mint_ratio():
     aura_total_supply = aura.totalSupply() / 1e18
     init_mint_amount = aura.INIT_MINT_AMOUNT() / 1e18
     aura_mint_ratio = (
-        (total_cliffs - (aura_total_supply - init_mint_amount) / cliff_reduction) * 2.5 + 700
+        (total_cliffs - (aura_total_supply - init_mint_amount) / cliff_reduction) * 2.5
+        + 700
     ) / total_cliffs
     return aura_mint_ratio
 
@@ -42,6 +43,7 @@ def weekly_emissions_after_fee(aura_mint_ratio, bal_price, aura_price):
 def aura_vebal_controlled():
     """
     Fetches the amount of veBAL controlled by Aura
+    and total vebal supply
     """
     # contracts
     vebal = Contract(VEBAL)
@@ -51,7 +53,7 @@ def aura_vebal_controlled():
 
     ts_vebal = vebal.totalSupply() / 1e18
 
-    return voter_proxy_aura_vebal_vp / ts_vebal
+    return voter_proxy_aura_vebal_vp / ts_vebal, ts_vebal
 
 
 def vebal_controlled_per_aura():
@@ -80,9 +82,15 @@ def get_rel_weights():
     # contracts
     gauge_controller = Contract(BALANCER_GAUGE_CONTROLLER)
 
-    weight_badger_wbtc = gauge_controller.gauge_relative_weight(BALANCER_BADGER_WBTC_GAUGE) / 1e18
-    weight_digg_gravi = gauge_controller.gauge_relative_weight(BALANCER_DIGG_GRAVI_GAUGE) / 1e18
-    weight_badger_reth = gauge_controller.gauge_relative_weight(BALANCER_BADGER_RETH_GAUGE) / 1e18
+    weight_badger_wbtc = (
+        gauge_controller.gauge_relative_weight(BALANCER_BADGER_WBTC_GAUGE) / 1e18
+    )
+    weight_digg_gravi = (
+        gauge_controller.gauge_relative_weight(BALANCER_DIGG_GRAVI_GAUGE) / 1e18
+    )
+    weight_badger_reth = (
+        gauge_controller.gauge_relative_weight(BALANCER_BADGER_RETH_GAUGE) / 1e18
+    )
 
     return [weight_badger_wbtc, weight_digg_gravi, weight_badger_reth]
 

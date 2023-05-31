@@ -38,7 +38,8 @@ def get_treasury_captures():
     vault_badger_reth_bal = reward_badger_reth.balanceOf(TREASURY_VAULT_MSIG) / 1e18
     vault_digg_gravi = reward_digg_gravi.balanceOf(TREASURY_VAULT_MSIG) / 1e18
     vault_badger_fraxbp = (
-        gauge_badger_fraxbp.lockedLiquidityOf(PRIVATE_VAULT_BADGER_FRAXBP_TREASURY) / 1e18
+        gauge_badger_fraxbp.lockedLiquidityOf(PRIVATE_VAULT_BADGER_FRAXBP_TREASURY)
+        / 1e18
     )
     vault_bunni_gauge = gauge_bunni.balanceOf(TREASURY_VAULT_MSIG) / 1e18
 
