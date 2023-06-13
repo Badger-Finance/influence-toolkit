@@ -32,15 +32,20 @@ def get_bunni_weekly_emissions(lit_price):
     return discounted_weekly_emissions
 
 
-def _staking_weight_formula(lp_balance, total_liquidity, velit_balance, velit_supply):
+def _staking_weight_formula(
+    lp_balance, total_liquidity, velit_balance, velit_supply, tokenless_production
+):
     """
     Calculates the staking weight of an user given its LP balance, total liquidity,
-    its veLIT balance and current total veLIT supply
+    its veLIT balance, current total veLIT supply and tokenless gauge factor
     """
     # https://docs.bunni.pro/docs/tokenomics/boosting#the-bunni-model
+    # tcr50 compliant: https://snapshot.org/#/timelessfi.eth/proposal/0xc7408d278e384e11bcb9b41475d4798d89b42ce6f01f7ab7733abd59588e03fa
+    factor_total_liq = 1 - tokenless_production
     return min(
         lp_balance,
-        0.1 * lp_balance + 0.9 * total_liquidity * (velit_balance / velit_supply),
+        tokenless_production * lp_balance
+        + factor_total_liq * total_liquidity * (velit_balance / velit_supply),
     )
 
 
@@ -51,6 +56,9 @@ def get_treasury_bunni_gauge_capture():
     """
     badger_wbtc_gauge = Contract(BUNNI_WBTC_BADGER_GAUGE)
     velit = Contract(VELIT)
+
+    # tokenless factor
+    tokenless_factor = badger_wbtc_gauge.tokenless_production() / 100
 
     # https://etherscan.io/tx/0x46d3fec275ad0d8c3e0895e92aca3cd3f2052bddbe1d4d7f9e0714f489749b53
     gauge_creation_block = 16728734
@@ -70,14 +78,12 @@ def get_treasury_bunni_gauge_capture():
     velit_supply = velit.totalSupply()
 
     # velit depositor balances
-    df_depositors["velit_balance"] = df_depositors["provider"].apply(
-        lambda x: velit.balanceOf(x)
-    )
+    df_depositors["velit_balance"] = df_depositors["provider"].apply(lambda x: velit.balanceOf(x))
 
     # calc individual staking weight and total
     df_depositors["staking_weight"] = df_depositors.apply(
         lambda x: _staking_weight_formula(
-            x.balance, gauge_supply, x.velit_balance, velit_supply
+            x.balance, gauge_supply, x.velit_balance, velit_supply, tokenless_factor
         ),
         axis=1,
     )
@@ -85,8 +91,6 @@ def get_treasury_bunni_gauge_capture():
     total_staking_weight = df_depositors["staking_weight"].sum()
 
     treasury_row = df_depositors.query("provider == @TREASURY_VAULT_MSIG")
-    treasury_gauge_capture = (
-        treasury_row["staking_weight"].iloc[0] / total_staking_weight
-    )
+    treasury_gauge_capture = treasury_row["staking_weight"].iloc[0] / total_staking_weight
 
     return treasury_gauge_capture
