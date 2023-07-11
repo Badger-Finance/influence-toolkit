@@ -1,5 +1,5 @@
 import pandas as pd
-from ape import Contract
+from ape import Contract, project
 
 from influence_toolkit.constants import TREASURY_VAULT_MSIG
 from influence_toolkit.constants import BUNNI_GAUGE_CONTROLLER
@@ -105,7 +105,7 @@ def is_bunni_lp_in_range():
     current price in badger per wbtc denomination
     """
     bunni_lp = Contract(BUNI_WBTC_BADGER_LP_RANGE_2820_13829)
-    univ3_pool = Contract(BADGER_WBTC_UNIV3)
+    univ3_pool = project.IUniv3.at(BADGER_WBTC_UNIV3)
     
     lower_tick = bunni_lp.tickLower()
     upper_tick = bunni_lp.tickUpper()
