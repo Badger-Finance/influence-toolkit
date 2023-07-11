@@ -252,12 +252,12 @@ def display_aura_df():
 
 
 def display_bunni_df():
-    headers = ["Bunni Range", "Is on Range?"]
+    headers = ["Bunni Range", "Is on Range?", "Current Price"]
 
-    is_on_range = is_bunni_lp_in_range()
+    is_on_range, current_price = is_bunni_lp_in_range()
     readable_range = get_bunni_readable_range()
 
-    data = [[readable_range, is_on_range]]
+    data = [[readable_range, is_on_range, current_price]]
 
     df = pd.DataFrame(data, columns=headers)
 

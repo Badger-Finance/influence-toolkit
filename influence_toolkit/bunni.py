@@ -101,7 +101,8 @@ def get_treasury_bunni_gauge_capture():
 def is_bunni_lp_in_range():
     """
     Compare current univ3 pool tick versus bunni
-    lp range [tickLower, tickUpper]
+    lp range [tickLower, tickUpper] and returns
+    current price in badger per wbtc denomination
     """
     bunni_lp = Contract(BUNI_WBTC_BADGER_LP_RANGE_2820_13829)
     univ3_pool = Contract(BADGER_WBTC_UNIV3)
@@ -110,11 +111,12 @@ def is_bunni_lp_in_range():
     upper_tick = bunni_lp.tickUpper()
 
     current_tick = univ3_pool.slot0()[1]
+    readable_price = (1.0001 ** current_tick) / 1e10
 
     if lower_tick <= current_tick and upper_tick >= current_tick:
-        return True
+        return True, readable_price
     
-    return False
+    return False, readable_price
 
 
 def get_bunni_readable_range():
