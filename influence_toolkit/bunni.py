@@ -3,7 +3,9 @@ from ape import Contract
 
 from influence_toolkit.constants import TREASURY_VAULT_MSIG
 from influence_toolkit.constants import BUNNI_GAUGE_CONTROLLER
+from influence_toolkit.constants import BUNI_WBTC_BADGER_LP_RANGE_2820_13829
 from influence_toolkit.constants import BUNNI_WBTC_BADGER_GAUGE
+from influence_toolkit.constants import BADGER_WBTC_UNIV3
 from influence_toolkit.constants import VELIT
 from influence_toolkit.constants import BUNNI_EXERCISE_DISCOUNT
 from influence_toolkit.constants import BUNNI_WEEKLY_EMISSIONS
@@ -94,3 +96,46 @@ def get_treasury_bunni_gauge_capture():
     treasury_gauge_capture = treasury_row["staking_weight"].iloc[0] / total_staking_weight
 
     return treasury_gauge_capture
+
+
+def is_bunni_lp_in_range():
+    """
+    Compare current univ3 pool tick versus bunni
+    lp range [tickLower, tickUpper] and returns
+    current price in badger per wbtc denomination
+    """
+    bunni_lp = Contract(BUNI_WBTC_BADGER_LP_RANGE_2820_13829)
+
+    # etherscan all pools ref to this bytecode
+    # ref: https://etherscan.io/address/0x8f8ef111b67c04eb1641f5ff19ee54cda062f163#code
+    contract_type_aux = Contract("0x8f8EF111B67C04Eb1641f5ff19EE54Cda062f163")
+    univ3_pool = Contract(
+        BADGER_WBTC_UNIV3, contract_type=contract_type_aux.contract_type
+    )
+
+    lower_tick = bunni_lp.tickLower()
+    upper_tick = bunni_lp.tickUpper()
+
+    current_tick = univ3_pool.slot0()[1]
+    readable_price = (1.0001**current_tick) / 1e10
+
+    if lower_tick <= current_tick and upper_tick >= current_tick:
+        return True, readable_price
+
+    return False, readable_price
+
+
+def get_bunni_readable_range():
+    """
+    Returns the range expressed in
+    badger per wbtc denomination
+    """
+    bunni_lp = Contract(BUNI_WBTC_BADGER_LP_RANGE_2820_13829)
+
+    lower_tick = bunni_lp.tickLower()
+    upper_tick = bunni_lp.tickUpper()
+
+    lower_tick_in_badger_per_wbtc = (1.0001 ** lower_tick) / 1e10
+    upper_tick_in_badger_per_wbtc = (1.0001 ** upper_tick) / 1e10
+
+    return [lower_tick_in_badger_per_wbtc, upper_tick_in_badger_per_wbtc]
