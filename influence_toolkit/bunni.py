@@ -1,5 +1,5 @@
 import pandas as pd
-from ape import Contract, project
+from ape import Contract
 
 from influence_toolkit.constants import TREASURY_VAULT_MSIG
 from influence_toolkit.constants import BUNNI_GAUGE_CONTROLLER
@@ -105,17 +105,23 @@ def is_bunni_lp_in_range():
     current price in badger per wbtc denomination
     """
     bunni_lp = Contract(BUNI_WBTC_BADGER_LP_RANGE_2820_13829)
-    univ3_pool = project.IUniv3.at(BADGER_WBTC_UNIV3)
-    
+
+    # etherscan all pools ref to this bytecode
+    # ref: https://etherscan.io/address/0x8f8ef111b67c04eb1641f5ff19ee54cda062f163#code
+    contract_type_aux = Contract("0x8f8EF111B67C04Eb1641f5ff19EE54Cda062f163")
+    univ3_pool = Contract(
+        BADGER_WBTC_UNIV3, contract_type=contract_type_aux.contract_type
+    )
+
     lower_tick = bunni_lp.tickLower()
     upper_tick = bunni_lp.tickUpper()
 
     current_tick = univ3_pool.slot0()[1]
-    readable_price = (1.0001 ** current_tick) / 1e10
+    readable_price = (1.0001**current_tick) / 1e10
 
     if lower_tick <= current_tick and upper_tick >= current_tick:
         return True, readable_price
-    
+
     return False, readable_price
 
 
