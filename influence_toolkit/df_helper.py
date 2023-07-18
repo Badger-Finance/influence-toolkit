@@ -252,7 +252,7 @@ def display_aura_df():
 
 
 def display_bunni_df():
-    headers = ["Bunni Range", "Is on Range?", "Current Price"]
+    headers = ["Bunni Range", "In Range?", "Current Price"]
 
     is_on_range, current_price = is_bunni_lp_in_range()
     readable_range = get_bunni_readable_range()
