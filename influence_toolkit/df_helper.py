@@ -13,6 +13,8 @@ from influence_toolkit.aura import vebal_controlled_per_aura
 from influence_toolkit.bunni import get_bunni_gauge_weight
 from influence_toolkit.bunni import get_bunni_weekly_emissions
 from influence_toolkit.bunni import get_treasury_bunni_gauge_capture
+from influence_toolkit.bunni import get_bunni_readable_range
+from influence_toolkit.bunni import is_bunni_lp_in_range
 from influence_toolkit.coingecko import get_aura_prices
 from influence_toolkit.coingecko import get_bunni_prices
 from influence_toolkit.coingecko import get_badger_price
@@ -243,6 +245,19 @@ def display_aura_df():
             rev_treasury_hh,
         ]
     ]
+
+    df = pd.DataFrame(data, columns=headers)
+
+    return df
+
+
+def display_bunni_df():
+    headers = ["Bunni Range", "In Range?", "Current Price"]
+
+    is_on_range, current_price = is_bunni_lp_in_range()
+    readable_range = get_bunni_readable_range()
+
+    data = [[readable_range, is_on_range, current_price]]
 
     df = pd.DataFrame(data, columns=headers)
 
