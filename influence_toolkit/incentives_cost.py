@@ -87,9 +87,19 @@ def get_incentives_cost(badger_price):
         badger_reth_balancer_incentives = df_balancer_hh[
             df_balancer_hh["Proposal"] == BADGER_RETH_BALANCER_PROPOSAL
         ]["Amount"].iloc[0]
-    badger_wbtc_bunni_incentives = df_bunni_hh[
-        df_bunni_hh["Proposal"] == BADGER_WBTC_BUNNI_PROPOSAL
-    ]["Amount"].iloc[0]
+    
+    badger_wbtc_bunni_incentives = 0
+    if (
+        len(
+            df_bunni_hh[df_bunni_hh["Proposal"] == BADGER_WBTC_BUNNI_PROPOSAL][
+                "Amount"
+            ]
+        )
+        > 0  # NOTE: in some rounds we may not incentive this marketplace
+    ):
+        badger_wbtc_bunni_incentives = df_bunni_hh[
+            df_bunni_hh["Proposal"] == BADGER_WBTC_BUNNI_PROPOSAL
+        ]["Amount"].iloc[0]
 
     # NOTE: assume some of them zero for now for testing
     return [
