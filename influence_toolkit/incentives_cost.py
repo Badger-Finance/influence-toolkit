@@ -5,6 +5,7 @@ from ape import Contract, chain
 from influence_toolkit.constants import TREASURY_VAULT_MSIG
 from influence_toolkit.constants import TROPS_MSIG
 from influence_toolkit.constants import BADGER
+from influence_toolkit.constants import BRIBE_VAULT_V2
 from influence_toolkit.constants import BALANCER_BRIBER_HH
 from influence_toolkit.constants import AURA_BRIBER_HH
 from influence_toolkit.constants import FRAX_BRIBER_HH
@@ -55,7 +56,7 @@ def get_incentives_cost(badger_price):
 
     # grab cost from all HH marketplaces in the past 2w
     df_balancer_hh = _get_incentives_per_market(
-        BALANCER_BRIBER_HH, start_block_balancer
+        BRIBE_VAULT_V2, start_block_balancer
     )
     df_aura_hh = _get_incentives_per_market(AURA_BRIBER_HH, start_block_balancer)
     # df_frax_hh = _get_incentives_per_market(FRAX_BRIBER_HH, start_block)
