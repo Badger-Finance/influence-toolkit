@@ -10,7 +10,7 @@ from influence_toolkit.constants import REWARDS_BADGER_RETH
 from influence_toolkit.constants import REWARDS_DIGG_WBTC_GRAVI
 from influence_toolkit.constants import CURVE_BADGER_FRAXBP_LP
 from influence_toolkit.constants import BADGER_FRAXBP_GAUGE
-from influence_toolkit.constants import BUNNI_WBTC_BADGER_GAUGE
+from influence_toolkit.constants import BUNNI_WBTC_BADGER_GAUGE_309720_332580
 
 
 def get_treasury_captures():
@@ -24,7 +24,7 @@ def get_treasury_captures():
     reward_badger_reth = Contract(REWARDS_BADGER_RETH)
     reward_digg_gravi = Contract(REWARDS_DIGG_WBTC_GRAVI)
     gauge_badger_fraxbp = Contract(BADGER_FRAXBP_GAUGE)
-    gauge_bunni = Contract(BUNNI_WBTC_BADGER_GAUGE)
+    gauge_bunni = Contract(BUNNI_WBTC_BADGER_GAUGE_309720_332580)
 
     # pool supplies
     ps_badger_wbtc = pool_badger_wbtc.totalSupply() / 1e18
