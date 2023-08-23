@@ -3,6 +3,7 @@ from ape import Contract
 from influence_toolkit.constants import AURA
 from influence_toolkit.constants import AURA_FEE
 from influence_toolkit.constants import BALANCER_EMISSIONS
+from influence_toolkit.constants import AURA_REWARD_MULTIPLIER
 from influence_toolkit.constants import POOL_ID_DIGG
 from influence_toolkit.constants import PROXY_AURA_VOTER
 from influence_toolkit.constants import VEBAL
@@ -36,7 +37,9 @@ def weekly_emissions_after_fee(aura_mint_ratio, bal_price, aura_price):
     """
     # NOTE: fee is uniquely taken out from the base protocol asset
     weekly_emissions_bal_after_fee = BALANCER_EMISSIONS * bal_price * (1 - AURA_FEE)
-    weekly_emissions_aura_after_fee = BALANCER_EMISSIONS * aura_mint_ratio * aura_price
+    weekly_emissions_aura_after_fee = (
+        (BALANCER_EMISSIONS * AURA_REWARD_MULTIPLIER) * aura_mint_ratio * aura_price
+    )
     return weekly_emissions_bal_after_fee, weekly_emissions_aura_after_fee
 
 

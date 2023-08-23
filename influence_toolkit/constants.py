@@ -88,6 +88,8 @@ MAX_COUNCIL_BRIBE = 16_000
 
 # emissions
 BALANCER_EMISSIONS = 121_930
+# https://forum.aura.finance/t/aip-42-maximizing-value-of-aura-lp-incentives-bootstrapping-l2s/544/1
+AURA_REWARD_MULTIPLIER = 0.4
 FXS_DAILY_EMISSIONS = 6_250
 # https://docs.google.com/spreadsheets/d/1EzUL5g6joauMYKUVlslaaptyYkLjpE8z_QLxgdkbD3I/edit#gid=0
 BUNNI_WEEKLY_EMISSIONS = 1_373_100
