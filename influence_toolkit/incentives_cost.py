@@ -60,7 +60,7 @@ def get_incentives_cost(badger_price):
     )
     df_aura_hh = _get_incentives_per_market(AURA_BRIBER_HH, start_block_balancer)
     # df_frax_hh = _get_incentives_per_market(FRAX_BRIBER_HH, start_block)
-    df_bunni_hh = _get_incentives_per_market(BUNNI_BRIBER_HH, start_block_bunni)
+    df_bunni_hh = _get_incentives_per_market(BRIBE_VAULT_V2, start_block_bunni)
 
     # filter incentives per gauge
     wbtc_badger_balancer_incentives = 0
