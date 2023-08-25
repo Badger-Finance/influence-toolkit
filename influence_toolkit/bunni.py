@@ -3,8 +3,8 @@ from ape import Contract
 
 from influence_toolkit.constants import TREASURY_VAULT_MSIG
 from influence_toolkit.constants import BUNNI_GAUGE_CONTROLLER
-from influence_toolkit.constants import BUNI_WBTC_BADGER_LP_RANGE_2820_13829
-from influence_toolkit.constants import BUNNI_WBTC_BADGER_GAUGE
+from influence_toolkit.constants import BUNI_WBTC_BADGER_LP_RANGE_309720_332580
+from influence_toolkit.constants import BUNNI_WBTC_BADGER_GAUGE_309720_332580
 from influence_toolkit.constants import BADGER_WBTC_UNIV3
 from influence_toolkit.constants import VELIT
 from influence_toolkit.constants import BUNNI_EXERCISE_DISCOUNT
@@ -17,7 +17,7 @@ def get_bunni_gauge_weight():
     """
     controller = Contract(BUNNI_GAUGE_CONTROLLER)
 
-    rel_weight = controller.gauge_relative_weight(BUNNI_WBTC_BADGER_GAUGE) / 1e18
+    rel_weight = controller.gauge_relative_weight(BUNNI_WBTC_BADGER_GAUGE_309720_332580) / 1e18
 
     return rel_weight
 
@@ -56,7 +56,7 @@ def get_treasury_bunni_gauge_capture():
     Calculates the treasury gauge capture considering other
     depositors and their velit holdings
     """
-    badger_wbtc_gauge = Contract(BUNNI_WBTC_BADGER_GAUGE)
+    badger_wbtc_gauge = Contract(BUNNI_WBTC_BADGER_GAUGE_309720_332580)
     velit = Contract(VELIT)
 
     # tokenless factor
@@ -104,7 +104,7 @@ def is_bunni_lp_in_range():
     lp range [tickLower, tickUpper] and returns
     current price in badger per wbtc denomination
     """
-    bunni_lp = Contract(BUNI_WBTC_BADGER_LP_RANGE_2820_13829)
+    bunni_lp = Contract(BUNI_WBTC_BADGER_LP_RANGE_309720_332580)
 
     # etherscan all pools ref to this bytecode
     # ref: https://etherscan.io/address/0x8f8ef111b67c04eb1641f5ff19ee54cda062f163#code
@@ -130,7 +130,7 @@ def get_bunni_readable_range():
     Returns the range expressed in
     badger per wbtc denomination
     """
-    bunni_lp = Contract(BUNI_WBTC_BADGER_LP_RANGE_2820_13829)
+    bunni_lp = Contract(BUNI_WBTC_BADGER_LP_RANGE_309720_332580)
 
     lower_tick = bunni_lp.tickLower()
     upper_tick = bunni_lp.tickUpper()
