@@ -2,6 +2,7 @@ import pandas as pd
 from ape import Contract
 
 from influence_toolkit.constants import TREASURY_VAULT_MSIG
+from influence_toolkit.constants import PROXY_LIQUIS_VOTER
 from influence_toolkit.constants import BUNNI_GAUGE_CONTROLLER
 from influence_toolkit.constants import BUNI_WBTC_BADGER_LP_RANGE_309720_332580
 from influence_toolkit.constants import BUNNI_WBTC_BADGER_GAUGE_309720_332580
@@ -92,7 +93,8 @@ def get_treasury_bunni_gauge_capture():
 
     total_staking_weight = df_depositors["staking_weight"].sum()
 
-    treasury_row = df_depositors.query("provider == @TREASURY_VAULT_MSIG")
+    # NOTE: temp workaround for calc treasury capture
+    treasury_row = df_depositors.query("provider == @PROXY_LIQUIS_VOTER")
     treasury_gauge_capture = treasury_row["staking_weight"].iloc[0] / total_staking_weight
 
     return treasury_gauge_capture
