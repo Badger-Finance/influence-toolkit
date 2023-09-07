@@ -63,8 +63,8 @@ def get_treasury_bunni_gauge_capture():
     # tokenless factor
     tokenless_factor = badger_wbtc_gauge.tokenless_production() / 100
 
-    # https://etherscan.io/tx/0x46d3fec275ad0d8c3e0895e92aca3cd3f2052bddbe1d4d7f9e0714f489749b53
-    gauge_creation_block = 16728734
+    # https://etherscan.io/tx/0x9fecf7d8d647ad5100bd84d378e16fa8935b930273f97bc5823c15408458e57c
+    gauge_creation_block = 17663896
     # NOTE: `provider` gets mix with rpc so needs to normalise the `event_arguments` instead
     df_deposits = badger_wbtc_gauge.Deposit.query("*", start_block=gauge_creation_block)
 
