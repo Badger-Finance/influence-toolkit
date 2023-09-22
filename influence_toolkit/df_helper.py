@@ -24,6 +24,10 @@ from influence_toolkit.convex import get_frax_gauge_weight
 from influence_toolkit.convex import get_badger_fraxbp_curve_gauge_weight
 from influence_toolkit.convex import convex_biweekly_emissions
 from influence_toolkit.convex import frax_weekly_emissions
+from influence_toolkit.liquis import liquis_mint_ratio
+from influence_toolkit.liquis import liq_velit_controlled
+from influence_toolkit.liquis import velit_controlled_per_liq
+from influence_toolkit.liquis import get_vlliq_treasury_balance
 from influence_toolkit.incentives_cost import get_incentives_cost
 from influence_toolkit.vp_info import get_council_vp_fee
 from influence_toolkit.vp_info import get_voter_vp
@@ -258,6 +262,30 @@ def display_bunni_df():
     readable_range = get_bunni_readable_range()
 
     data = [[readable_range, is_on_range, current_price]]
+
+    df = pd.DataFrame(data, columns=headers)
+
+    return df
+
+
+def display_liquis_df():
+    headers = [
+        "Mint Ratio",
+        "veLIT per Liq",
+        "Liquis veLIT controlled",
+        "Badger veLIT controlled",
+    ]
+
+    mint_ratio = liquis_mint_ratio()
+    velit_per_liq = velit_controlled_per_liq()
+    liq_velit, total_velit = liq_velit_controlled()
+    liq_velit_pct = pct_format(liq_velit)
+
+    # total veLIT controlled by treasury
+    tresury_vlliq = get_vlliq_treasury_balance()
+    velit_badger_controlled = tresury_vlliq * velit_per_liq
+
+    data = [[mint_ratio, velit_per_liq, liq_velit_pct, velit_badger_controlled]]
 
     df = pd.DataFrame(data, columns=headers)
 
