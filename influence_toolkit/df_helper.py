@@ -283,7 +283,7 @@ def display_liquis_df():
 
     # total veLIT controlled by treasury
     tresury_vlliq = get_vlliq_treasury_balance()
-    velit_badger_controlled = tresury_vlliq * velit_per_liq
+    velit_badger_controlled = pct_format((tresury_vlliq * velit_per_liq) / total_velit)
 
     data = [[mint_ratio, velit_per_liq, liq_velit_pct, velit_badger_controlled]]
 
