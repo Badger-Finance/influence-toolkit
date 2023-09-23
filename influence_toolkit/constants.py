@@ -133,7 +133,7 @@ POOL_PLATFORMS = {
     "DIGG/GRAVI/WBTC": "Balancer/Aura",
     "BADGER/RETH": "Balancer/Aura",
     "BADGER/FRAXBP": "Curve/Convex/Frax",
-    "WBTC/BADGER (UNI)": "Uniswap/Bunni",
+    "WBTC/BADGER (UNI)": "Bunni/Liquis",
 }
 
 # endpoints
