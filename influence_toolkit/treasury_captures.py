@@ -11,6 +11,7 @@ from influence_toolkit.constants import REWARDS_DIGG_WBTC_GRAVI
 from influence_toolkit.constants import CURVE_BADGER_FRAXBP_LP
 from influence_toolkit.constants import BADGER_FRAXBP_GAUGE
 from influence_toolkit.constants import BUNNI_WBTC_BADGER_GAUGE_309720_332580
+from influence_toolkit.constants import LIQUIS_WBTC_BADGER_GAUGE_309720_332580
 
 
 def get_treasury_captures():
@@ -25,6 +26,8 @@ def get_treasury_captures():
     reward_digg_gravi = Contract(REWARDS_DIGG_WBTC_GRAVI)
     gauge_badger_fraxbp = Contract(BADGER_FRAXBP_GAUGE)
     gauge_bunni = Contract(BUNNI_WBTC_BADGER_GAUGE_309720_332580)
+
+    reward_liquis_badger_wbtc = Contract(LIQUIS_WBTC_BADGER_GAUGE_309720_332580)
 
     # pool supplies
     ps_badger_wbtc = pool_badger_wbtc.totalSupply() / 1e18
@@ -41,19 +44,20 @@ def get_treasury_captures():
         gauge_badger_fraxbp.lockedLiquidityOf(PRIVATE_VAULT_BADGER_FRAXBP_TREASURY)
         / 1e18
     )
-    vault_bunni_gauge = gauge_bunni.balanceOf(TREASURY_VAULT_MSIG) / 1e18
+    # vault_bunni_gauge = gauge_bunni.balanceOf(TREASURY_VAULT_MSIG) / 1e18
+    vault_liquis_gauge = reward_liquis_badger_wbtc.balanceOf(TREASURY_VAULT_MSIG) / 1e18
 
     # captures
     capture_badger_wbtc = vault_badger_wbtc_bal / ps_badger_wbtc
     capture_badger_reth = vault_badger_reth_bal / ps_badger_reth
     capture_digg_gravi = vault_digg_gravi / ps_digg_gravi
     capture_badger_fraxbp = vault_badger_fraxbp / ps_badger_fraxbp
-    capture_bunni_gauge = vault_bunni_gauge / ps_bunni_gauge
+    capture_liquis_gauge = vault_liquis_gauge / ps_bunni_gauge
 
     return [
         capture_badger_wbtc,
         capture_digg_gravi,
         capture_badger_reth,
         capture_badger_fraxbp,
-        capture_bunni_gauge,
+        capture_liquis_gauge,
     ]

@@ -22,11 +22,9 @@ def get_liquis_weekly_emissions(liq_mint_ratio, lit_price, liq_price):
     discounted_weekly_emissions = weekly_emissions * BUNNI_EXERCISE_DISCOUNT
 
     weekly_emissions_olit_after_fee = discounted_weekly_emissions * (1 - LIQUIS_FEE)
-    weekly_emissions_aura_after_fee = (
-        BUNNI_WEEKLY_EMISSIONS * liq_mint_ratio * liq_price
-    )
+    weekly_emissions_liq_after_fee = BUNNI_WEEKLY_EMISSIONS * liq_mint_ratio * liq_price
 
-    return weekly_emissions_olit_after_fee, weekly_emissions_aura_after_fee
+    return weekly_emissions_olit_after_fee, weekly_emissions_liq_after_fee
 
 
 def liquis_mint_ratio():

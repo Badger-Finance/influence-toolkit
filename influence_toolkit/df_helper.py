@@ -19,6 +19,7 @@ from influence_toolkit.coingecko import get_aura_prices
 from influence_toolkit.coingecko import get_bunni_prices
 from influence_toolkit.coingecko import get_badger_price
 from influence_toolkit.coingecko import get_convex_prices
+from influence_toolkit.coingecko import get_liquis_price
 from influence_toolkit.convex import cvx_mint_ratio
 from influence_toolkit.convex import get_frax_gauge_weight
 from influence_toolkit.convex import get_badger_fraxbp_curve_gauge_weight
@@ -28,6 +29,7 @@ from influence_toolkit.liquis import liquis_mint_ratio
 from influence_toolkit.liquis import liq_velit_controlled
 from influence_toolkit.liquis import velit_controlled_per_liq
 from influence_toolkit.liquis import get_vlliq_treasury_balance
+from influence_toolkit.liquis import get_liquis_weekly_emissions
 from influence_toolkit.incentives_cost import get_incentives_cost
 from influence_toolkit.vp_info import get_council_vp_fee
 from influence_toolkit.vp_info import get_voter_vp
@@ -83,13 +85,14 @@ def display_current_epoch_df():
 
     # reward captures
     reward_captures = treasury_captures[:]
-    reward_captures[-1] = get_treasury_bunni_gauge_capture()
+    # reward_captures[-1] = get_treasury_bunni_gauge_capture()
 
     # prices
     bal_price, aura_price = get_aura_prices()
     lit_price = get_bunni_prices()
     badger_price = get_badger_price()
     cvx_price, crv_price, fxs_price = get_convex_prices()
+    liq_price = get_liquis_price()
 
     # ecosystem emissions
     mint_ratio = aura_mint_ratio()
@@ -98,6 +101,14 @@ def display_current_epoch_df():
     )
     biweekly_bal_emissions_usd = weekly_emissions_bal_usd * 2
     biweekly_aura_emissions_usd = weekly_emissions_aura_usd * 2
+
+    liq_mint_ratio = liquis_mint_ratio()
+    (
+        weekly_emissions_olit_after_fee,
+        weekly_emissions_liq_after_fee,
+    ) = get_liquis_weekly_emissions(liq_mint_ratio, lit_price, liq_price)
+    biweekly_olit_emissions_usd = weekly_emissions_olit_after_fee * 2
+    biweekly_liq_emissions_usd = weekly_emissions_liq_after_fee * 2
 
     cvx_ratio = cvx_mint_ratio()
     # NOTE: in this case we are no deducting the fee here, since for badger/fraxbp fee is only taken in the shape of FXS
@@ -108,8 +119,8 @@ def display_current_epoch_df():
 
     biweekly_frax_emissions_usd = frax_weekly_emissions(fxs_price) * 2
 
-    weekly_bunni_emissions = get_bunni_weekly_emissions(lit_price)
-    biweekly_bunni_emissions = weekly_bunni_emissions * 2
+    # weekly_bunni_emissions = get_bunni_weekly_emissions(lit_price)
+    # biweekly_bunni_emissions = weekly_bunni_emissions * 2
 
     # emissions
     lvl1_emissions = [
@@ -117,14 +128,14 @@ def display_current_epoch_df():
         biweekly_bal_emissions_usd,
         biweekly_bal_emissions_usd,
         biweekly_curve_emissions_usd,
-        np.nan,
+        biweekly_olit_emissions_usd,
     ]
     lvl2_emissions = [
         biweekly_aura_emissions_usd,
         biweekly_aura_emissions_usd,
         biweekly_aura_emissions_usd,
         biweekly_convex_emissions_usd,
-        biweekly_bunni_emissions,
+        biweekly_liq_emissions_usd,
     ]
     lvl3_emissions = [np.nan, np.nan, np.nan, biweekly_frax_emissions_usd, np.nan]
 
@@ -145,7 +156,10 @@ def display_current_epoch_df():
     for idx, capture in enumerate(reward_captures):
         rel_weight = rel_weights[idx]
         if idx == Gauges.BADGER_WBTC_BUNNI:
-            usd_rev = capture * rel_weight * biweekly_bunni_emissions
+            total_liquis_emissions_usd = (
+                biweekly_olit_emissions_usd + biweekly_liq_emissions_usd
+            )
+            usd_rev = capture * rel_weight * total_liquis_emissions_usd
         elif idx == Gauges.BADGER_FRAXBP:
             # here we include both set of emissions: crv, cvx & fxs
             total_convex_emissions_usd = (
