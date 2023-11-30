@@ -180,7 +180,10 @@ def display_current_epoch_df():
     for idx, gross in enumerate(gross_rev):
         if idx == Gauges.BADGER_WBTC_BALANCER:
             rel_weight_reducted = get_rel_weight_reducted(total_vebal_vp)
-            net_rev = gross / rel_weights[idx] * rel_weight_reducted
+            if rel_weight[idx] > 0:
+                net_rev = gross / rel_weights[idx] * rel_weight_reducted
+            else:
+                net_rev = 0
         else:
             net_rev = gross
         net_revenue.append(net_rev)
