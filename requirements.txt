@@ -1,6 +1,6 @@
-eth-ape
-ape-etherscan
-ape-alchemy
+eth-ape==0.6.26
+ape-etherscan==0.6.10
+ape-alchemy==0.6.5
 pycoingecko
 requests
 pandas
