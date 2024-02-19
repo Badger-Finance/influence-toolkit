@@ -82,7 +82,9 @@ def get_incentives_cost(badger_price, liq_price):
     # df_aura_hh = _get_incentives_per_market(AURA_BRIBER_HH, start_block_balancer)
     # df_frax_hh = _get_incentives_per_market(FRAX_BRIBER_HH, start_block)
     df_bunni_hh = _get_incentives_per_market(BRIBE_VAULT_V2, start_block_two_weeks_ago)
-    df_paladin = _get_incentives_per_market(QUEST_BOARD_VELIQ, start_block_two_weeks_ago)
+    df_paladin = _get_incentives_per_market(
+        QUEST_BOARD_VELIQ, start_block_two_weeks_ago
+    )
 
     # filter incentives per gauge
     """
@@ -135,7 +137,9 @@ def get_incentives_cost(badger_price, liq_price):
 
     # NOTE: assume some of them zero for now for testing
     return [
-        float(0),  # (float(wbtc_badger_balancer_incentives) + float(df_aura_hh["Amount"].sum())) * badger_price,
+        float(
+            0
+        ),  # (float(wbtc_badger_balancer_incentives) + float(df_aura_hh["Amount"].sum())) * badger_price,
         float(0),
         float(0),  # float(badger_reth_balancer_incentives) * badger_price,
         float(0),

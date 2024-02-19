@@ -185,7 +185,7 @@ def display_current_epoch_df():
             else:
                 net_rev = 0
         else:
-            net_rev = gross
+            net_rev = gross - incentives[idx]
         net_revenue.append(net_rev)
 
     # df
