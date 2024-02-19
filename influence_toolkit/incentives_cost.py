@@ -134,9 +134,15 @@ def get_incentives_cost(badger_price, liq_price):
         len(df_paladin[df_paladin["Proposal"] == BADGER_WBTC_LIQUIS_PROPOSAL]["Amount"])
         > 0  # NOTE: in some rounds we may not incentive this marketplace
     ):
+        # calculate the recycled amount by the votermsig and its `vlLIQ` vp
         liq_vested_escrow = Contract(LIQ_VESTED_ESCROW_TREASURY)
         voter_vliq_vp = liq_vested_escrow.remaining(VOTER_MSIG) / Decimal("1e18")
         recycled_voter_liquis_amount = Decimal(REWARD_PER_VOTE_LIQ) * voter_vliq_vp
+
+        # TODO: calculate the amount recycled back by trops from unallocated incentives posted by trops
+        unallocated_incentives_amount = 0
+
+        # deduct recycled amount from the total incentives and unallocated incentives
         badger_wbtc_liquis_incentives = (
             df_paladin[df_paladin["Proposal"] == BADGER_WBTC_LIQUIS_PROPOSAL][
                 "Amount"
