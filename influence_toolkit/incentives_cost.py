@@ -112,7 +112,7 @@ def get_incentives_cost(badger_price, liq_price):
             df_balancer_hh["Proposal"] == BADGER_RETH_BALANCER_PROPOSAL
         ]["Amount"].iloc[0]
     """
-    
+
     badger_wbtc_bunni_incentives = 0
     if (
         len(
@@ -135,10 +135,9 @@ def get_incentives_cost(badger_price, liq_price):
 
     # NOTE: assume some of them zero for now for testing
     return [
-        (float(wbtc_badger_balancer_incentives) + float(df_aura_hh["Amount"].sum()))
-        * badger_price,
+        float(0),  # (float(wbtc_badger_balancer_incentives) + float(df_aura_hh["Amount"].sum())) * badger_price,
         float(0),
-        float(badger_reth_balancer_incentives) * badger_price,
+        float(0),  # float(badger_reth_balancer_incentives) * badger_price,
         float(0),
         float(badger_wbtc_bunni_incentives) * badger_price
         + float(badger_wbtc_liquis_incentives) * liq_price,
