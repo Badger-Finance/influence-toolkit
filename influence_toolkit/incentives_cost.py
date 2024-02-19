@@ -85,6 +85,7 @@ def get_incentives_cost(badger_price, liq_price):
     df_paladin = _get_incentives_per_market(QUEST_BOARD_VELIQ, start_block_bunni)
 
     # filter incentives per gauge
+    """
     wbtc_badger_balancer_incentives = 0
     if (
         len(
@@ -110,7 +111,8 @@ def get_incentives_cost(badger_price, liq_price):
         badger_reth_balancer_incentives = df_balancer_hh[
             df_balancer_hh["Proposal"] == BADGER_RETH_BALANCER_PROPOSAL
         ]["Amount"].iloc[0]
-
+    """
+    
     badger_wbtc_bunni_incentives = 0
     if (
         len(
