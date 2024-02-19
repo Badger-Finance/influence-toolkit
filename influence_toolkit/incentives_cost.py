@@ -4,6 +4,7 @@ from ape import Contract, chain
 
 from influence_toolkit.constants import TREASURY_VAULT_MSIG
 from influence_toolkit.constants import TROPS_MSIG
+from influence_toolkit.constants import VOTER_MSIG
 from influence_toolkit.constants import BADGER
 from influence_toolkit.constants import LIQ
 from influence_toolkit.constants import BRIBE_VAULT_V2
@@ -12,11 +13,13 @@ from influence_toolkit.constants import AURA_BRIBER_HH
 from influence_toolkit.constants import FRAX_BRIBER_HH
 from influence_toolkit.constants import BUNNI_BRIBER_HH
 from influence_toolkit.constants import QUEST_BOARD_VELIQ
+from influence_toolkit.constants import LIQ_VESTED_ESCROW_TREASURY
 from influence_toolkit.constants import BADGER_WBTC_BALANCER_PROPOSAL
 from influence_toolkit.constants import BADGER_RETH_BALANCER_PROPOSAL
 from influence_toolkit.constants import BADGER_FRAXBP_FRAX_PROPOSAL
 from influence_toolkit.constants import BADGER_WBTC_BUNNI_PROPOSAL
 from influence_toolkit.constants import BADGER_WBTC_LIQUIS_PROPOSAL
+from influence_toolkit.constants import REWARD_PER_VOTE_LIQ
 from influence_toolkit.constants import SECONDS_PER_BLOCK
 from influence_toolkit.constants import WEEK
 
@@ -131,9 +134,15 @@ def get_incentives_cost(badger_price, liq_price):
         len(df_paladin[df_paladin["Proposal"] == BADGER_WBTC_LIQUIS_PROPOSAL]["Amount"])
         > 0  # NOTE: in some rounds we may not incentive this marketplace
     ):
-        badger_wbtc_liquis_incentives = df_paladin[
-            df_paladin["Proposal"] == BADGER_WBTC_LIQUIS_PROPOSAL
-        ]["Amount"].sum()
+        liq_vested_escrow = Contract(LIQ_VESTED_ESCROW_TREASURY)
+        voter_vliq_vp = liq_vested_escrow.remaining(VOTER_MSIG) / Decimal("1e18")
+        recycled_voter_liquis_amount = REWARD_PER_VOTE_LIQ * voter_vliq_vp
+        badger_wbtc_liquis_incentives = (
+            df_paladin[df_paladin["Proposal"] == BADGER_WBTC_LIQUIS_PROPOSAL][
+                "Amount"
+            ].sum()
+            - recycled_voter_liquis_amount
+        )
 
     # NOTE: assume some of them zero for now for testing
     return [
