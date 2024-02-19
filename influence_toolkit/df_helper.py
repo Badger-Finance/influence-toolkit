@@ -140,7 +140,7 @@ def display_current_epoch_df():
     lvl3_emissions = [np.nan, np.nan, np.nan, biweekly_frax_emissions_usd, np.nan]
 
     # incentive costs
-    incentives = get_incentives_cost(badger_price)
+    incentives = get_incentives_cost(badger_price, liq_price)
 
     # deduct vp coming from our voter_msig & council fee
     # currently assume all is "hard-coded" into wbtc/badger gauge

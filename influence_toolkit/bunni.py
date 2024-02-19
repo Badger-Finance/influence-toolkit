@@ -18,7 +18,9 @@ def get_bunni_gauge_weight():
     """
     controller = Contract(BUNNI_GAUGE_CONTROLLER)
 
-    rel_weight = controller.gauge_relative_weight(BUNNI_WBTC_BADGER_GAUGE_309720_332580) / 1e18
+    rel_weight = (
+        controller.gauge_relative_weight(BUNNI_WBTC_BADGER_GAUGE_309720_332580) / 1e18
+    )
 
     return rel_weight
 
@@ -81,7 +83,9 @@ def get_treasury_bunni_gauge_capture():
     velit_supply = velit.totalSupply()
 
     # velit depositor balances
-    df_depositors["velit_balance"] = df_depositors["provider"].apply(lambda x: velit.balanceOf(x))
+    df_depositors["velit_balance"] = df_depositors["provider"].apply(
+        lambda x: velit.balanceOf(x)
+    )
 
     # calc individual staking weight and total
     df_depositors["staking_weight"] = df_depositors.apply(
@@ -95,7 +99,9 @@ def get_treasury_bunni_gauge_capture():
 
     # NOTE: temp workaround for calc treasury capture
     treasury_row = df_depositors.query("provider == @PROXY_LIQUIS_VOTER")
-    treasury_gauge_capture = treasury_row["staking_weight"].iloc[0] / total_staking_weight
+    treasury_gauge_capture = (
+        treasury_row["staking_weight"].iloc[0] / total_staking_weight
+    )
 
     return treasury_gauge_capture
 
@@ -137,7 +143,7 @@ def get_bunni_readable_range():
     lower_tick = bunni_lp.tickLower()
     upper_tick = bunni_lp.tickUpper()
 
-    lower_tick_in_badger_per_wbtc = (1.0001 ** lower_tick) / 1e10
-    upper_tick_in_badger_per_wbtc = (1.0001 ** upper_tick) / 1e10
+    lower_tick_in_badger_per_wbtc = (1.0001**lower_tick) / 1e10
+    upper_tick_in_badger_per_wbtc = (1.0001**upper_tick) / 1e10
 
     return [lower_tick_in_badger_per_wbtc, upper_tick_in_badger_per_wbtc]
