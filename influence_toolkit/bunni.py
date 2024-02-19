@@ -2,6 +2,7 @@ import pandas as pd
 from ape import Contract
 
 from influence_toolkit.constants import TREASURY_VAULT_MSIG
+from influence_toolkit.constants import PROXY_LIQUIS_VOTER
 from influence_toolkit.constants import BUNNI_GAUGE_CONTROLLER
 from influence_toolkit.constants import BUNI_WBTC_BADGER_LP_RANGE_309720_332580
 from influence_toolkit.constants import BUNNI_WBTC_BADGER_GAUGE_309720_332580
@@ -17,7 +18,9 @@ def get_bunni_gauge_weight():
     """
     controller = Contract(BUNNI_GAUGE_CONTROLLER)
 
-    rel_weight = controller.gauge_relative_weight(BUNNI_WBTC_BADGER_GAUGE_309720_332580) / 1e18
+    rel_weight = (
+        controller.gauge_relative_weight(BUNNI_WBTC_BADGER_GAUGE_309720_332580) / 1e18
+    )
 
     return rel_weight
 
@@ -62,8 +65,8 @@ def get_treasury_bunni_gauge_capture():
     # tokenless factor
     tokenless_factor = badger_wbtc_gauge.tokenless_production() / 100
 
-    # https://etherscan.io/tx/0x46d3fec275ad0d8c3e0895e92aca3cd3f2052bddbe1d4d7f9e0714f489749b53
-    gauge_creation_block = 16728734
+    # https://etherscan.io/tx/0x9fecf7d8d647ad5100bd84d378e16fa8935b930273f97bc5823c15408458e57c
+    gauge_creation_block = 17663896
     # NOTE: `provider` gets mix with rpc so needs to normalise the `event_arguments` instead
     df_deposits = badger_wbtc_gauge.Deposit.query("*", start_block=gauge_creation_block)
 
@@ -80,7 +83,9 @@ def get_treasury_bunni_gauge_capture():
     velit_supply = velit.totalSupply()
 
     # velit depositor balances
-    df_depositors["velit_balance"] = df_depositors["provider"].apply(lambda x: velit.balanceOf(x))
+    df_depositors["velit_balance"] = df_depositors["provider"].apply(
+        lambda x: velit.balanceOf(x)
+    )
 
     # calc individual staking weight and total
     df_depositors["staking_weight"] = df_depositors.apply(
@@ -92,8 +97,11 @@ def get_treasury_bunni_gauge_capture():
 
     total_staking_weight = df_depositors["staking_weight"].sum()
 
-    treasury_row = df_depositors.query("provider == @TREASURY_VAULT_MSIG")
-    treasury_gauge_capture = treasury_row["staking_weight"].iloc[0] / total_staking_weight
+    # NOTE: temp workaround for calc treasury capture
+    treasury_row = df_depositors.query("provider == @PROXY_LIQUIS_VOTER")
+    treasury_gauge_capture = (
+        treasury_row["staking_weight"].iloc[0] / total_staking_weight
+    )
 
     return treasury_gauge_capture
 
@@ -135,7 +143,7 @@ def get_bunni_readable_range():
     lower_tick = bunni_lp.tickLower()
     upper_tick = bunni_lp.tickUpper()
 
-    lower_tick_in_badger_per_wbtc = (1.0001 ** lower_tick) / 1e10
-    upper_tick_in_badger_per_wbtc = (1.0001 ** upper_tick) / 1e10
+    lower_tick_in_badger_per_wbtc = (1.0001**lower_tick) / 1e10
+    upper_tick_in_badger_per_wbtc = (1.0001**upper_tick) / 1e10
 
     return [lower_tick_in_badger_per_wbtc, upper_tick_in_badger_per_wbtc]

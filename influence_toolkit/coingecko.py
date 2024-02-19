@@ -22,6 +22,16 @@ def get_bunni_prices():
     return lit_price
 
 
+def get_liquis_price():
+    """
+    Fetches liquis price in usd
+    """
+    prices = CoinGeckoAPI().get_price(["liquis"], "usd")
+    liquis_price = prices["liquis"]["usd"]
+
+    return liquis_price
+
+
 def get_badger_price():
     """
     Fetches badger price in usd
