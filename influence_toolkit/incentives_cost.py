@@ -72,17 +72,17 @@ def get_incentives_cost(badger_price, liq_price):
     # we cap reading for 2w-3w back, depending on market
     current_block = chain.blocks.height
     blocks_per_week = 60 * 60 * 24 * WEEK / SECONDS_PER_BLOCK
-    start_block_balancer = current_block - (blocks_per_week * 2)
+    start_block_two_weeks_ago = current_block - (blocks_per_week * 2)
     # NOTE: there may be the ocassion of having the bunni incentive
     # 3w back whenever we run this method
-    start_block_bunni = current_block - (blocks_per_week * 3)
+    start_block_three_weeks_ago = current_block - (blocks_per_week * 3)
 
     # grab cost from all HH marketplaces in the past 2w
     # df_balancer_hh = _get_incentives_per_market(BRIBE_VAULT_V2, start_block_balancer)
     # df_aura_hh = _get_incentives_per_market(AURA_BRIBER_HH, start_block_balancer)
     # df_frax_hh = _get_incentives_per_market(FRAX_BRIBER_HH, start_block)
-    df_bunni_hh = _get_incentives_per_market(BRIBE_VAULT_V2, start_block_bunni)
-    df_paladin = _get_incentives_per_market(QUEST_BOARD_VELIQ, start_block_bunni)
+    df_bunni_hh = _get_incentives_per_market(BRIBE_VAULT_V2, start_block_two_weeks_ago)
+    df_paladin = _get_incentives_per_market(QUEST_BOARD_VELIQ, start_block_two_weeks_ago)
 
     # filter incentives per gauge
     """
