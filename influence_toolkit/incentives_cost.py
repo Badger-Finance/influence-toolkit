@@ -136,7 +136,7 @@ def get_incentives_cost(badger_price, liq_price):
     ):
         liq_vested_escrow = Contract(LIQ_VESTED_ESCROW_TREASURY)
         voter_vliq_vp = liq_vested_escrow.remaining(VOTER_MSIG) / Decimal("1e18")
-        recycled_voter_liquis_amount = REWARD_PER_VOTE_LIQ * voter_vliq_vp
+        recycled_voter_liquis_amount = Decimal(REWARD_PER_VOTE_LIQ) * voter_vliq_vp
         badger_wbtc_liquis_incentives = (
             df_paladin[df_paladin["Proposal"] == BADGER_WBTC_LIQUIS_PROPOSAL][
                 "Amount"
